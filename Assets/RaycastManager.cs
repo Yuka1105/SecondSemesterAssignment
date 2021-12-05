@@ -3,26 +3,22 @@ using System.Collections.Generic;//リストを使うとき
 using UnityEngine;
 using System; //DateTimeを使用する為追加。
 using System.IO;//セーブとロード
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
-
-[SerializeField] List<SaveData> List = new List<SaveData>();//SaveDataを管理するリスト
+[System.Serializable]
+public class Wrapper
+{
+   public List<SaveData> List;
+}
 
 [System.Serializable]
 public class SaveData //セーブデータ用のクラス
 {
-    [JsonPropertyName("month")] public int Month{ get; set; }
-    [JsonPropertyName("day")] public int Day { get; set; }
-    [JsonPropertyName("food")] public string Food { get; set; }
-    [JsonPropertyName("color")] public string Color { get; set; }
-//     public int month;//買った月
-//     public int day;//買った日
-//     public string food;//買った食べ物
-//     public string color;//買った食べ物の色
-//     //価格、カテゴリも追加したい
+    public int month;//買った月
+    public int day;//買った日
+    public string food;//買った食べ物
+    public string color;//買った食べ物の色
+    //価格、カテゴリも追加したい
 }
-
 public class RaycastManager : MonoBehaviour
 {
     //DateTimeを使うため変数を設定
@@ -30,17 +26,21 @@ public class RaycastManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        List = Load();
-        List.ForEach(data =>
-        {
-        Debug.Log(data.Month + "," + data.Day + "," + data.Food + "," + data.Color);
-        });
+        Wrapper wrapper = new Wrapper();
+        wrapper.List = new List<SaveData>();
+        wrapper = Load();
+        for(int i=0; i< wrapper.List.Count; i++ ){
+            Debug.Log(wrapper.List[i].month);
+            Debug.Log(wrapper.List[i].day);
+            Debug.Log(wrapper.List[i].food);
+            Debug.Log(wrapper.List[i].color);
+        }
     }
 
-    public void Save(List<SaveData> List)
+    public void Save(Wrapper wrapper)
     {
         StreamWriter writer;
-        string jsonstr = JsonSerializer.Serialize(List);
+        string jsonstr = JsonUtility.ToJson(wrapper);
         writer = new StreamWriter(Application.dataPath + "/savedata.json",false);//trueだと追加で、falseだと上書き
         writer.Write(jsonstr);
         writer.Flush();
@@ -48,25 +48,24 @@ public class RaycastManager : MonoBehaviour
         Debug.Log(jsonstr);
     }
 
-    public List<SaveData> Load(){
+    public Wrapper Load(){
         if(File.Exists(Application.dataPath + "/savedata.json")){
             string datastr = "";//json形式のデータを格納するためのstring変数
             StreamReader reader;
             reader = new StreamReader(Application.dataPath + "/savedata.json");
             datastr = reader.ReadToEnd();
             reader.Close();
-            //return JsonUtility.FromJson<List<SaveData>>(datastr);//json形式のデータ(datastr)をList<SaveData>に変えてリターンしている。
-            return JsonSerializer.Deserialize<List<SaveData>>(datastr);//json形式のデータ(datastr)をList<SaveData>に変えてリターンしている。
+            return JsonUtility.FromJson<Wrapper>(datastr);//json形式のデータ(datastr)をWrapperに変えてリターンしている。
         }
-        List<SaveData> list;
-        list.Add(new SaveData { Month = 0, Day = 0, Food = " ", Color = " " });
-        //SaveData saveData = new SaveData();
-        // list.add(saveData);
-        // list.get(0).month = 0;
-        // list.get(0).day = 0;
-        // list.get(0).food = "";
-        // list.get(0).color = "";
-        return list;
+        Wrapper wrapper = new Wrapper();
+        wrapper.List = new List<SaveData>();
+        SaveData saveData = new SaveData();
+        wrapper.List.Add(saveData);
+        wrapper.List[0].month = 0;
+        wrapper.List[0].day = 0;
+        wrapper.List[0].food = "";
+        wrapper.List[0].color = "";
+        return wrapper;
     }
 
     // Update is called once per frame
@@ -86,19 +85,17 @@ public class RaycastManager : MonoBehaviour
                 {
                     TodayNow = DateTime.Now; //時間を取得
                     SaveData saveData = new SaveData();
-                    //saveData.month = TodayNow.Month;
-                    //saveData.day = TodayNow.Day;
-                    // saveData.food = rayHit.collider.gameObject.name;
-                    // int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
-                    // saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
-                    //saveData.color = tag;
-                    string f_n = rayHit.collider.gameObject.name;
-                    int length = f_n.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
-                    f_n = f_n.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
-
-                    List.Add(new SaveData { Month = TodayNow.Month, Day =TodayNow.Day, Food = f_n, Color = tag });
-                    //List.Add(saveData);
-                    Save(List);
+                    saveData.month = TodayNow.Month;
+                    saveData.day = TodayNow.Day;
+                    saveData.food = rayHit.collider.gameObject.name;
+                    int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
+                    saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
+                    saveData.color = tag;
+                    Wrapper wrapper = new Wrapper();
+                    wrapper.List = new List<SaveData>();
+                    wrapper = Load();
+                    wrapper.List.Add(saveData);
+                    Save(wrapper);
                     Destroy(rayHit.collider.gameObject);//食べ物を消す
                 }
             }
@@ -106,10 +103,14 @@ public class RaycastManager : MonoBehaviour
     }
 
     public void PushLoadButton(){//アプリを開いたらすぐ押す（仮）
-        List = Load();
-        List.ForEach(data =>
-        {
-        Debug.Log(data.Month + "," + data.Day + "," + data.Food + "," + data.Color);
-        });
+        Wrapper wrapper = new Wrapper();
+        wrapper.List = new List<SaveData>();
+        wrapper = Load();
+        for(int i=0; i< wrapper.List.Count; i++ ){
+            Debug.Log(wrapper.List[i].month);
+            Debug.Log(wrapper.List[i].day);
+            Debug.Log(wrapper.List[i].food);
+            Debug.Log(wrapper.List[i].color);
+        }
     }
 }
