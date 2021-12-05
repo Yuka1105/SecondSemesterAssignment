@@ -30,11 +30,9 @@ public class RaycastManager : MonoBehaviour
         wrapper.List = new List<SaveData>();
         wrapper = Load();
         for(int i=0; i< wrapper.List.Count; i++ ){
-            Debug.Log(wrapper.List[i].month);
-            Debug.Log(wrapper.List[i].day);
-            Debug.Log(wrapper.List[i].food);
-            Debug.Log(wrapper.List[i].color);
+            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色");
         }
+        Debug.Log(JsonUtility.ToJson(wrapper));
     }
 
     public void Save(Wrapper wrapper)
@@ -54,8 +52,21 @@ public class RaycastManager : MonoBehaviour
             StreamReader reader;
             reader = new StreamReader(Application.dataPath + "/savedata.json");
             datastr = reader.ReadToEnd();
-            reader.Close();
-            return JsonUtility.FromJson<Wrapper>(datastr);//json形式のデータ(datastr)をWrapperに変えてリターンしている。
+            if(datastr == ""){//ファイルにデータが何もなかった場合
+                reader.Close();
+                Wrapper w = new Wrapper();
+                w.List = new List<SaveData>();
+                SaveData s = new SaveData();
+                w.List.Add(s);
+                w.List[0].month = 0;
+                w.List[0].day = 0;
+                w.List[0].food = "";
+                w.List[0].color = "";
+                return w; 
+            }else{
+                reader.Close();
+                return JsonUtility.FromJson<Wrapper>(datastr);//json形式のデータ(datastr)をWrapperに変えてリターンしている。
+            }
         }
         Wrapper wrapper = new Wrapper();
         wrapper.List = new List<SaveData>();
@@ -107,10 +118,8 @@ public class RaycastManager : MonoBehaviour
         wrapper.List = new List<SaveData>();
         wrapper = Load();
         for(int i=0; i< wrapper.List.Count; i++ ){
-            Debug.Log(wrapper.List[i].month);
-            Debug.Log(wrapper.List[i].day);
-            Debug.Log(wrapper.List[i].food);
-            Debug.Log(wrapper.List[i].color);
+            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色");
         }
+        Debug.Log(JsonUtility.ToJson(wrapper));
     }
 }
