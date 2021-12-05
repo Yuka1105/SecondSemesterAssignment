@@ -1,15 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class InputManager : MonoBehaviour
+public class CanvasContainer : MonoBehaviour
 {
-  private static InputManager instance = null;
-  public static InputManager Instance => instance
-        ?? ( instance = GameObject.FindWithTag ( "InputManager" ).GetComponent<InputManager> () );
-    //値段入力
-    public InputField inputField;
+    private static CanvasContainer instance = null;
+    public static CanvasContainer Instance => instance
+        ?? ( instance = GameObject.FindWithTag ( "CanvasContainer" ).GetComponent<CanvasContainer> () );
     void Awake()
     {
       // もしインスタンスが複数存在するなら、自らを破棄する
@@ -27,8 +24,5 @@ public class InputManager : MonoBehaviour
         // 破棄時に、登録した実体の解除を行う
         if ( this == Instance ) instance = null;
     }
-    void Start()
-    {
-      inputField = inputField.GetComponent<InputField> ();
-    }
+
 }

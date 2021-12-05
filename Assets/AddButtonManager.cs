@@ -19,5 +19,7 @@ public class AddButtonManager : MonoBehaviour
 
     public void AddButtonOnClick(){
        SceneManager.LoadScene("Add");
+       GameObject g = GameObject.Find("CanvasContainer").transform.Find("Canvas").gameObject;
+       g.SetActive(true);
     }
 }

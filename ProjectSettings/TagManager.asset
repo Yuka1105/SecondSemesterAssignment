@@ -8,6 +8,10 @@ TagManager:
   - green
   - orange
   - food
+  - InputManager
+  - ButtonManager
+  - Canvas
+  - CanvasContainer
   layers:
   - Default
   - TransparentFX

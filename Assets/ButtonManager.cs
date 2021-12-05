@@ -41,9 +41,31 @@ public class ButtonManager : MonoBehaviour
 
     GameObject InputManager;
     InputManager script;
+
+    public GameObject canvas;
+
+    // GameControllerインスタンスの実体
+    private static ButtonManager instance = null;
+
+    // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録する
+    public static ButtonManager Instance => instance
+        ?? ( instance = GameObject.FindWithTag ( "ButtonManager" ).GetComponent<ButtonManager> () );
     void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        // もしインスタンスが複数存在するなら、自らを破棄する
+        if ( this != Instance )
+        {
+            Destroy ( this.gameObject );
+            return;
+        }
+
+        // 唯一のインスタンスなら、シーン遷移しても残す
+        DontDestroyOnLoad ( this.gameObject );
+    }
+    private void OnDestroy ()
+    {
+        // 破棄時に、登録した実体の解除を行う
+        if ( this == Instance ) instance = null;
     }
     void Update(){
       InputManager = GameObject.Find("InputManager");
@@ -315,11 +337,19 @@ public class ButtonManager : MonoBehaviour
                     food_name_end[i] = content.transform.GetChild(i).gameObject.name;//配列に食材名を保存
                 }
                 SceneManager.LoadScene("Home");
+                canvas.SetActive(false);
                 load_scene = true;
+                foreach(Transform child in content.transform){
+                    Destroy(child.gameObject);
+                }
                 break;
                 
             case "return":
                 SceneManager.LoadScene("Home");
+                canvas.SetActive(false);
+                foreach(Transform child in content.transform){
+                    Destroy(child.gameObject);
+                }
                 break;
 
             default:
