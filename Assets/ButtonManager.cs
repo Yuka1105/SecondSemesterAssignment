@@ -38,6 +38,7 @@ public class ButtonManager : MonoBehaviour
 
     //最終的にリストに追加されている食材の名前を入れる配列
     public string[] food_name_end = new string[50];
+    public int[] food_price_end = new int[50];
 
     GameObject InputManager;
     InputManager script;
@@ -297,10 +298,6 @@ public class ButtonManager : MonoBehaviour
                 food_name = "ケーキ";
                 panel_price.SetActive(true);
                 break;
-            case "shiko_alcohol":
-                food_name = "アルコール";
-                panel_price.SetActive(true);
-                break;
             //値段入力OKボタン
             case "ok":
                 if(int.Parse(script.inputField.text) >= 1 && int.Parse(script.inputField.text) <= 50000){//値段が1円以上なら実行する
@@ -334,12 +331,15 @@ public class ButtonManager : MonoBehaviour
                 //追加されている食材の数を数える
                 ObjCount = content.transform.childCount;
                 for(int i = 0; i < ObjCount; i++){
+                    int length = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Length;//110円だったら4文字だから4が格納される。
+                    string price = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Remove(length-1);//110という数字だけになる。
                     food_name_end[i] = content.transform.GetChild(i).gameObject.name;//配列に食材名を保存
+                    food_price_end[i] = int.Parse(price);//string型の値段をint型に変換
                 }
                 SceneManager.LoadScene("Home");
                 canvas.SetActive(false);
                 load_scene = true;
-                foreach(Transform child in content.transform){
+                foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
                     Destroy(child.gameObject);
                 }
                 break;
@@ -347,7 +347,7 @@ public class ButtonManager : MonoBehaviour
             case "return":
                 SceneManager.LoadScene("Home");
                 canvas.SetActive(false);
-                foreach(Transform child in content.transform){
+                foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
                     Destroy(child.gameObject);
                 }
                 break;

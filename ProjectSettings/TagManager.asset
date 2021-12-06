@@ -12,6 +12,14 @@ TagManager:
   - ButtonManager
   - Canvas
   - CanvasContainer
+  - white
+  - yellow
+  - brown
+  - pink
+  - blue
+  - purple
+  - gray
+  - black
   layers:
   - Default
   - TransparentFX

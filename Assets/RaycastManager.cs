@@ -17,20 +17,24 @@ public class SaveData //セーブデータ用のクラス
     public int day;//買った日
     public string food;//買った食べ物
     public string color;//買った食べ物の色
-    //価格、カテゴリも追加したい
+    public int price;//値段
 }
 public class RaycastManager : MonoBehaviour
 {
+    GameObject FoodProvider;
+    FoodProvider script;
     //DateTimeを使うため変数を設定
     DateTime TodayNow;
     // Start is called before the first frame update
     void Start()
     {
+        FoodProvider = GameObject.Find("FoodProvider"); 
+
         Wrapper wrapper = new Wrapper();
         wrapper.List = new List<SaveData>();
         wrapper = Load();
         for(int i=0; i< wrapper.List.Count; i++ ){
-            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色");
+            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色" + wrapper.List[i].price + "円");
         }
         Debug.Log(JsonUtility.ToJson(wrapper));
     }
@@ -62,6 +66,7 @@ public class RaycastManager : MonoBehaviour
                 w.List[0].day = 0;
                 w.List[0].food = "";
                 w.List[0].color = "";
+                w.List[0].price = 0;
                 return w; 
             }else{
                 reader.Close();
@@ -76,12 +81,14 @@ public class RaycastManager : MonoBehaviour
         wrapper.List[0].day = 0;
         wrapper.List[0].food = "";
         wrapper.List[0].color = "";
+        wrapper.List[0].price = 0;
         return wrapper;
     }
 
     // Update is called once per frame
     void Update()
     {
+        script = FoodProvider.GetComponent<FoodProvider>();
         if(Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -91,8 +98,7 @@ public class RaycastManager : MonoBehaviour
             if (isHit)
             {
                 string tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
-                Debug.Log(tag);
-                if (tag == "red" || tag == "orange" || tag == "green")//食べ物にヒットした場合のみ
+                if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
                 {
                     TodayNow = DateTime.Now; //時間を取得
                     SaveData saveData = new SaveData();
@@ -102,6 +108,11 @@ public class RaycastManager : MonoBehaviour
                     int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
                     saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
                     saveData.color = tag;
+                    for(int i = 0; i < script.script.ObjCount; i++){
+                        if(rayHit.collider.gameObject == script.food[i].insta_obj){
+                            saveData.price = script.food[i].food_price;
+                        }
+                    }
                     Wrapper wrapper = new Wrapper();
                     wrapper.List = new List<SaveData>();
                     wrapper = Load();
@@ -118,7 +129,7 @@ public class RaycastManager : MonoBehaviour
         wrapper.List = new List<SaveData>();
         wrapper = Load();
         for(int i=0; i< wrapper.List.Count; i++ ){
-            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色");
+            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色" + wrapper.List[i].price + "円");
         }
         Debug.Log(JsonUtility.ToJson(wrapper));
     }
