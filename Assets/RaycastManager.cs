@@ -148,14 +148,4 @@ public class RaycastManager : MonoBehaviour
             }
         }
     }
-
-    public void PushLoadButton(){//アプリを開いたらすぐ押す（仮）
-        Wrapper wrapper = new Wrapper();
-        wrapper.List = new List<SaveData>();
-        wrapper = Load();
-        for(int i=0; i< wrapper.List.Count; i++ ){
-            Debug.Log(wrapper.List[i].month + "月" + wrapper.List[i].day + "日" + wrapper.List[i].food + "を登録"　+ wrapper.List[i].color + "色" + wrapper.List[i].price + "円");
-        }
-        Debug.Log(JsonUtility.ToJson(wrapper));
-    }
 }
