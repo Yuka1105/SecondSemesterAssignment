@@ -3,6 +3,7 @@ using System.Collections.Generic;//リストを使うとき
 using UnityEngine;
 using System; //DateTimeを使用する為追加。
 using System.IO;//セーブとロード
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Wrapper
@@ -28,8 +29,6 @@ public class RaycastManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FoodProvider = GameObject.Find("FoodProvider"); 
-
         Wrapper wrapper = new Wrapper();
         wrapper.List = new List<SaveData>();
         wrapper = Load();
@@ -88,7 +87,6 @@ public class RaycastManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        script = FoodProvider.GetComponent<FoodProvider>();
         if(Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -100,6 +98,8 @@ public class RaycastManager : MonoBehaviour
                 string tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
                 if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
                 {
+                    FoodProvider = GameObject.Find("FoodProvider"); 
+                    script = FoodProvider.GetComponent<FoodProvider>();
                     TodayNow = DateTime.Now; //時間を取得
                     SaveData saveData = new SaveData();
                     saveData.month = TodayNow.Month;
@@ -119,6 +119,9 @@ public class RaycastManager : MonoBehaviour
                     wrapper.List.Add(saveData);
                     Save(wrapper);
                     Destroy(rayHit.collider.gameObject);//食べ物を消す
+                }
+                if(tag == "book"){
+                    SceneManager.LoadScene("Book");
                 }
             }
         }
