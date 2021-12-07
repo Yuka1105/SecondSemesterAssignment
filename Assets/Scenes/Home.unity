@@ -942,6 +942,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c72db6da2ea4eb5a13ae0e3968ef5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  food:
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  - insta_obj: {fileID: 0}
+    food_price: 0
+  script: {fileID: 0}
 --- !u!4 &1312623916
 Transform:
   m_ObjectHideFlags: 0
@@ -1392,9 +1494,10 @@ GameObject:
   - component: {fileID: 1710801102}
   - component: {fileID: 1710801101}
   - component: {fileID: 1710801100}
+  - component: {fileID: 1710801104}
   m_Layer: 0
   m_Name: Book
-  m_TagString: Untagged
+  m_TagString: book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1473,6 +1576,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 33.233, z: 0}
+--- !u!114 &1710801104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710801099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e38510514e54aae81ca4f856c0a09e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1778501855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1600,7 @@ GameObject:
   - component: {fileID: 1778501856}
   m_Layer: 0
   m_Name: RaycastManager
-  m_TagString: Untagged
+  m_TagString: RaycastManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
