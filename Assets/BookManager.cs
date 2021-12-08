@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Item{//食材名、入力回数、最後に買った日付を格納するクラス
@@ -100,6 +101,11 @@ public class BookManager : MonoBehaviour
                     food_text.text = item[i].food;
                 }
             }
+            if(wrapper.List.Count > 0){//リストに１つでもデータがある、つまり図鑑にボタンが一つでもある場合
+                //最初のボタンをあらかじめ押した状態にしておく。
+                Debug.Log(content.transform.GetChild(0));
+                content.transform.GetChild(0).GetComponent<Button>().onClick.Invoke();
+            }
         }
         book_open = false;
 
@@ -126,5 +132,9 @@ public class BookManager : MonoBehaviour
                 cloneObject.name = "model";
              }
          }
+    }
+
+    public void ReturnOnClick(){
+        SceneManager.LoadScene("Home");
     }
 }
