@@ -102,6 +102,11 @@ public class BookManager : MonoBehaviour
             }
         }
         book_open = false;
+
+        GameObject model = GameObject.Find("model");
+        if(model){
+            model.transform.Rotate(new Vector3(0, 1.0f, 0));
+        }
     }
 
     //アイテムボタンクリックイベント内容
@@ -111,6 +116,14 @@ public class BookManager : MonoBehaviour
                 text_times.GetComponent<Text>().text = item[i].times + "回";
                 text_lastday.GetComponent<Text>().text = item[i].month + "月" + item[i].day + "日";
                 foodnametext.GetComponent<Text>().text = item[i].food;
+                GameObject obj = (GameObject)Resources.Load(item[i].food);
+                //画面上にリストにある食べ物を出現させる。
+                GameObject model = GameObject.Find("model");
+                if(model){
+                    Destroy(model);
+                }
+                GameObject cloneObject = Instantiate(obj, new Vector3(0.0f, 1.650f, -5.50f), Quaternion.identity);
+                cloneObject.name = "model";
              }
          }
     }
