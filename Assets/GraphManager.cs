@@ -24,6 +24,7 @@ public class GraphManager : MonoBehaviour
     public GameObject color_button;
     int change_month;
     Color[] color = new Color[11];
+    bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +76,7 @@ public class GraphManager : MonoBehaviour
     void Update()
     {
      Debug.Log(month_value[dropdown.value] + "月を見ている！");//今選択している月を表示
-     if(change_month != month_value[dropdown.value]){//ドロップダウンで違う月を選択したら（1回だけ実行される）
+     if(change_month != month_value[dropdown.value] || push_button == true){//ドロップダウンで違う月を選択したら（1回だけ実行される）
         if(panel_kind == "color"){//色別を見ている時
             Wrapper wrapper = new Wrapper();
             wrapper.List = new List<SaveData>();
@@ -104,6 +105,7 @@ public class GraphManager : MonoBehaviour
                 color[j].price = 0;//初期値に戻す
             }
         }
+        push_button = false;
      }
      
      change_month = month_value[dropdown.value];
@@ -116,18 +118,21 @@ public class GraphManager : MonoBehaviour
                 panel_category.SetActive(false);
                 panel_meatfish.SetActive(false);
                 panel_kind = "color";
+                push_button = true;
                 break;
             case "category":
                 panel_color.SetActive(false);
                 panel_category.SetActive(true);
                 panel_meatfish.SetActive(false);
                 panel_kind = "category";
+                push_button = true;
                 break;
             case "meatfish":
                 panel_color.SetActive(false);
                 panel_category.SetActive(false);
                 panel_meatfish.SetActive(true);
                 panel_kind = "meatfish";
+                push_button = true;
                 break;
             default:
                 break;
