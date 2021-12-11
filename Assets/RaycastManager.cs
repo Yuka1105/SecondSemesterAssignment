@@ -113,7 +113,7 @@ public class RaycastManager : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayHit = new RaycastHit();
-            float maxDistance = 100f;
+            float maxDistance = 10000f;
             bool isHit = Physics.Raycast(ray, out rayHit, maxDistance);
             if (isHit)
             {
@@ -144,6 +144,9 @@ public class RaycastManager : MonoBehaviour
                 }
                 if(tag == "book"){
                     SceneManager.LoadScene("Book");
+                }
+                if(tag == "calendar"){
+                    SceneManager.LoadScene("Calendar");
                 }
             }
         }

@@ -22,6 +22,7 @@ TagManager:
   - black
   - book
   - RaycastManager
+  - calendar
   layers:
   - Default
   - TransparentFX
