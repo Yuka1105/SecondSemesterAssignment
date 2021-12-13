@@ -12,6 +12,12 @@ public class Color{//色別のためのクラス
     public float ratio;
 }
 
+public class MeatFish{//肉/魚別のためのクラス
+    public string meatfish;
+    public int price;
+    public float ratio;
+}
+
 public class GraphManager : MonoBehaviour
 {
     GameObject RaycastManager;
@@ -25,6 +31,7 @@ public class GraphManager : MonoBehaviour
     public GameObject color_button;
     int change_month;
     Color[] color = new Color[11];
+    MeatFish[] meatfish = new MeatFish[6];
     bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
 
     // Start is called before the first frame update
@@ -71,7 +78,16 @@ public class GraphManager : MonoBehaviour
      color[8].color = "black";
      color[9].color = "gray";
      color[10].color = "white";
-     
+
+     for(int i = 0; i < 6; i++){
+         meatfish[i] = new MeatFish();
+     }
+     meatfish[0].meatfish = "イワシ";
+     meatfish[1].meatfish = "タラ";
+     meatfish[2].meatfish = "サケ";
+     meatfish[3].meatfish = "牛肉";
+     meatfish[4].meatfish = "豚肉";
+     meatfish[5].meatfish = "鶏肉";
     }
     // Update is called once per frame
     void Update()
@@ -113,6 +129,43 @@ public class GraphManager : MonoBehaviour
             angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
                 color[j].price = 0;//初期値に戻す
+            }
+        }
+        if(panel_kind == "meatfish"){//肉/魚別を見ている時
+            Wrapper wrapper = new Wrapper();
+            wrapper.List = new List<SaveData>();
+            wrapper = script.Load();
+            int sum = 0;//値段の合計
+            for(int i = 0; i<wrapper.List.Count; i++){
+                if(wrapper.List[i].month == month_value[dropdown.value]){//今選択している月のデータのみ参照
+                    for(int j = 0; j<6; j++){
+                        if(wrapper.List[i].food == meatfish[j].meatfish){//例えばデータ内の食べ物がサケだった場合meatfishクラスのサケのインスタンスの値段を増やす。
+                            meatfish[j].price += wrapper.List[i].price;
+                            sum += wrapper.List[i].price;//値段の合計を増やす。
+                        }
+                    }
+                }
+            }
+            //最終的な結果を表示
+            float angle = 0.0f;//円グラフの回転角を増やすための変数
+            for(int j = 0; j<6; j++){
+                //表
+                meatfish[j].ratio = (float)Math.Round(((float)meatfish[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの食べ物の値段における割合。小数第二位で四捨五入
+                Debug.Log(meatfish[j].meatfish + "は合計" + meatfish[j].price + "円。全体の" + meatfish[j].ratio + "%");//結果
+                GameObject.Find(meatfish[j].meatfish).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (meatfish[j].price).ToString() + "円";
+                GameObject.Find(meatfish[j].meatfish).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
+
+                //円グラフ
+                GameObject.Find("Image_" + meatfish[j].meatfish).GetComponent<Image>().fillAmount = meatfish[j].ratio / 100.0f;
+                Transform myTransform = GameObject.Find("Image_" + meatfish[j].meatfish).transform;
+                Vector3 worldAngle = myTransform.eulerAngles;
+                worldAngle.z = 360.0f * angle;//回転角を求める
+                myTransform.eulerAngles = worldAngle; // 回転角度を設定
+                angle -= meatfish[j].ratio / 100.0f;
+            }
+            angle = 0;//初期値に戻す
+            for(int j = 0; j<6; j++){
+                meatfish[j].price = 0;//初期値に戻す
             }
         }
         push_button = false;
