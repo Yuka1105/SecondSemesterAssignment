@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Color{//色別のためのクラス
@@ -93,14 +94,23 @@ public class GraphManager : MonoBehaviour
                 }
             }
             //最終的な結果を表示
+            float angle = 0.0f;//円グラフの回転角を増やすための変数
             for(int j = 0; j<11; j++){
+                //表
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
                 Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
-                //Debug.Log(GameObject.Find(color[j].color).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text);
-                //Debug.Log((color[j].price).ToString());
                 GameObject.Find(color[j].color).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (color[j].price).ToString() + "円";
                 GameObject.Find(color[j].color).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (color[j].ratio).ToString() + "%";
+
+                //円グラフ
+                GameObject.Find("Image_" + color[j].color).GetComponent<Image>().fillAmount = color[j].ratio / 100.0f;
+                Transform myTransform = GameObject.Find("Image_" + color[j].color).transform;
+                Vector3 worldAngle = myTransform.eulerAngles;
+                worldAngle.z = 360.0f * angle;//回転角を求める
+                myTransform.eulerAngles = worldAngle; // 回転角度を設定
+                angle -= color[j].ratio / 100.0f;
             }
+            angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
                 color[j].price = 0;//初期値に戻す
             }
@@ -134,8 +144,12 @@ public class GraphManager : MonoBehaviour
                 panel_kind = "meatfish";
                 push_button = true;
                 break;
+    
             default:
                 break;
         }
+    }
+    public void ReturnOnClick(){
+        SceneManager.LoadScene("Home");
     }
 }
