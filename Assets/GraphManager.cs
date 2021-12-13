@@ -18,13 +18,19 @@ public class MeatFish{//肉/魚別のためのクラス
     public float ratio;
 }
 
+public class Happy{//果物・嗜好別のためのクラス
+    public string happy;
+    public int price;
+    public float ratio;
+}
+
 public class GraphManager : MonoBehaviour
 {
     GameObject RaycastManager;
     RaycastManager script;
     public Dropdown dropdown;
     public GameObject panel_color;
-    public GameObject panel_category;
+    public GameObject panel_happy;
     public GameObject panel_meatfish;
     List<int> month_value;
     string panel_kind;//今何のパネルを表示中か
@@ -32,6 +38,7 @@ public class GraphManager : MonoBehaviour
     int change_month;
     Color[] color = new Color[11];
     MeatFish[] meatfish = new MeatFish[6];
+    Happy[] happy = new Happy[8];
     bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
 
     // Start is called before the first frame update
@@ -88,7 +95,20 @@ public class GraphManager : MonoBehaviour
      meatfish[3].meatfish = "牛肉";
      meatfish[4].meatfish = "豚肉";
      meatfish[5].meatfish = "鶏肉";
+
+     for(int i = 0; i < 8; i++){
+         happy[i] = new Happy();
+     }
+     happy[0].happy = "りんご";
+     happy[1].happy = "みかん";
+     happy[2].happy = "バナナ";
+     happy[3].happy = "ぶどう";
+     happy[4].happy = "いちご";
+     happy[5].happy = "チョコレート";
+     happy[6].happy = "クッキー";
+     happy[7].happy = "ケーキ";
     }
+    
     // Update is called once per frame
     void Update()
     {
@@ -168,6 +188,43 @@ public class GraphManager : MonoBehaviour
                 meatfish[j].price = 0;//初期値に戻す
             }
         }
+        if(panel_kind == "happy"){//果物・嗜好別を見ている時
+            Wrapper wrapper = new Wrapper();
+            wrapper.List = new List<SaveData>();
+            wrapper = script.Load();
+            int sum = 0;//値段の合計
+            for(int i = 0; i<wrapper.List.Count; i++){
+                if(wrapper.List[i].month == month_value[dropdown.value]){//今選択している月のデータのみ参照
+                    for(int j = 0; j<8; j++){
+                        if(wrapper.List[i].food == happy[j].happy){//例えばデータ内の食べ物が赤色だった場合colorクラスの赤のインスタンスの値段を増やす。
+                            happy[j].price += wrapper.List[i].price;
+                            sum += wrapper.List[i].price;//値段の合計を増やす。
+                        }
+                    }
+                }
+            }
+            //最終的な結果を表示
+            float angle = 0.0f;//円グラフの回転角を増やすための変数
+            for(int j = 0; j<8; j++){
+                //表
+                happy[j].ratio = (float)Math.Round(((float)happy[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
+                Debug.Log(happy[j].happy + "は合計" + happy[j].price + "円。全体の" + happy[j].ratio + "%");//結果
+                GameObject.Find(happy[j].happy).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (happy[j].price).ToString() + "円";
+                GameObject.Find(happy[j].happy).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
+
+                //円グラフ
+                GameObject.Find("Image_" + happy[j].happy).GetComponent<Image>().fillAmount = happy[j].ratio / 100.0f;
+                Transform myTransform = GameObject.Find("Image_" + happy[j].happy).transform;
+                Vector3 worldAngle = myTransform.eulerAngles;
+                worldAngle.z = 360.0f * angle;//回転角を求める
+                myTransform.eulerAngles = worldAngle; // 回転角度を設定
+                angle -= happy[j].ratio / 100.0f;
+            }
+            angle = 0;//初期値に戻す
+            for(int j = 0; j<11; j++){
+                happy[j].price = 0;//初期値に戻す
+            }
+        }
         push_button = false;
      }
      
@@ -178,21 +235,21 @@ public class GraphManager : MonoBehaviour
         switch(buttons){
             case "color":
                 panel_color.SetActive(true);
-                panel_category.SetActive(false);
+                panel_happy.SetActive(false);
                 panel_meatfish.SetActive(false);
                 panel_kind = "color";
                 push_button = true;
                 break;
-            case "category":
+            case "happy":
                 panel_color.SetActive(false);
-                panel_category.SetActive(true);
+                panel_happy.SetActive(true);
                 panel_meatfish.SetActive(false);
-                panel_kind = "category";
+                panel_kind = "happy";
                 push_button = true;
                 break;
             case "meatfish":
                 panel_color.SetActive(false);
-                panel_category.SetActive(false);
+                panel_happy.SetActive(false);
                 panel_meatfish.SetActive(true);
                 panel_kind = "meatfish";
                 push_button = true;
