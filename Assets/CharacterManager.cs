@@ -72,10 +72,64 @@ public class CharacterManager : MonoBehaviour
         }
         Debug.Log("今月の色の数は" + color_num + "色です。");
         if(color_num == 0){//今月0色の場合
-
+            //キャラクターの色を変更
+            Renderer renderer = GetComponent<Renderer>();
+            //2色について、それぞれの割合から色の配分を決めて、色を足し合わせる。
+            UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 247f / 255f, 153f / 255f);
+            //Debug.Log(c);
+            renderer.material.color = c;
         }
         else if(color_num == 1){//今月1色の場合
-
+            //キャラクターの色を変更
+            Renderer renderer = GetComponent<Renderer>();
+            for(int i = 0; i<wrapper.List.Count; i++){
+                if(wrapper.List[i].month == month){//今月のデータのみ参照
+                    if(wrapper.List[i].color == "red"){
+                        UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 0f / 255f, 0f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "orange"){
+                        UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 140f / 255f, 0f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "yellow"){
+                        UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 255f / 255f, 0f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "green"){
+                        UnityEngine.Color c = new UnityEngine.Color(0f / 255f, 255f / 255f, 0f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "blue"){
+                        UnityEngine.Color c = new UnityEngine.Color(0f / 255f, 0f / 255f, 255f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "purple"){
+                        UnityEngine.Color c = new UnityEngine.Color(153f / 255f, 54f / 255f, 204f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "pink"){
+                        UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 143f / 255f, 204f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "brown"){
+                        UnityEngine.Color c = new UnityEngine.Color(153f / 255f, 102f / 255f, 102f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "black"){
+                        UnityEngine.Color c = new UnityEngine.Color(0f / 255f, 0f / 255f, 0f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "gray"){
+                        UnityEngine.Color c = new UnityEngine.Color(153f / 255f, 153f / 255f, 153f / 255f);
+                        renderer.material.color = c;
+                    }
+                    else if(wrapper.List[i].color == "white"){
+                        UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f);
+                        renderer.material.color = c;
+                    }
+                }
+            }
         }
         else{//今月2色以上ある場合
             //各色の割合を算出する。
@@ -138,12 +192,6 @@ public class CharacterManager : MonoBehaviour
                     twocolor[i].c = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f);
                 }
             }
-            for(int i = 0; i<2; i++){//上位２色がどの色なのかを求める。
-                Debug.Log(twocolor[i].color);
-                Debug.Log(twocolor[i].ratio);
-                Debug.Log(twocolor[i].c);
-            }
-            Debug.Log(twocolor[0].c * (twocolor[0].ratio/twocolor[0].ratio + twocolor[1].ratio));
             //キャラクターの色を変更
             Renderer renderer = GetComponent<Renderer>();
             //2色について、それぞれの割合から色の配分を決めて、色を足し合わせる。
