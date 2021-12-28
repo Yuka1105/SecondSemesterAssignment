@@ -113,7 +113,7 @@ public class BookManager : MonoBehaviour
         if(model){
             Transform modelTransform = model.transform;
             Vector3 localAngle = modelTransform.localEulerAngles;
-            localAngle.y += 1.0f; // ローカル座標を基準に、y軸を軸にし１度分回転
+            localAngle.y += 0.50f; // ローカル座標を基準に、y軸を軸にし１度分回転
             // model.transform.Rotate(new Vector3(0, 1.0f, 0));
             modelTransform.localEulerAngles = localAngle; // 回転角度を設定
         }
