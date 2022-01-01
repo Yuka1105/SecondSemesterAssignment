@@ -145,7 +145,6 @@ public class CharacterManager : MonoBehaviour
         }
         else{//今月2色以上ある場合
             //各色の割合を算出する。
-            Debug.Log("あ");
             for(int j = 0; j<11; j++){
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
             }

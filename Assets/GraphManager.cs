@@ -11,6 +11,12 @@ public class Color{//色別のためのクラス
     public int price;
     public float ratio;
 }
+public class ColorRank{//色のランキングのためのクラス
+    public string rank;
+    public string color;
+    public int price;
+    public float ratio;
+}
 
 public class MeatFish{//肉/魚別のためのクラス
     public string meatfish;
@@ -37,6 +43,7 @@ public class GraphManager : MonoBehaviour
     public GameObject color_button;
     int change_month;
     Color[] color = new Color[11];
+    ColorRank[] color_rank = new ColorRank[11];
     MeatFish[] meatfish = new MeatFish[6];
     Happy[] happy = new Happy[8];
     bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
@@ -86,6 +93,21 @@ public class GraphManager : MonoBehaviour
      color[9].color = "gray";
      color[10].color = "white";
 
+     for(int i = 0; i < 11; i++){
+         color_rank[i] = new ColorRank();
+     }
+     color_rank[0].rank = "first";
+     color_rank[1].rank = "second";
+     color_rank[2].rank = "third";
+     color_rank[3].rank = "fourth";
+     color_rank[4].rank = "fifth";
+     color_rank[5].rank = "sixth";
+     color_rank[6].rank = "seventh";
+     color_rank[7].rank = "eighth";
+     color_rank[8].rank = "ninth";
+     color_rank[9].rank = "tenth";
+     color_rank[10].rank = "eleventh";
+
      for(int i = 0; i < 6; i++){
          meatfish[i] = new MeatFish();
      }
@@ -131,12 +153,12 @@ public class GraphManager : MonoBehaviour
             }
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
+            //rankという名前の配列に割合の値を移す。
+            float[] rank = new float[11];
             for(int j = 0; j<11; j++){
                 //表
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
-                Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
-                GameObject.Find(color[j].color).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (color[j].price).ToString() + "円";
-                GameObject.Find(color[j].color).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (color[j].ratio).ToString() + "%";
+                rank[j] = color[j].ratio;
 
                 //円グラフ
                 GameObject.Find("Image_" + color[j].color).GetComponent<Image>().fillAmount = color[j].ratio / 100.0f;
@@ -145,6 +167,58 @@ public class GraphManager : MonoBehaviour
                 worldAngle.z = 360.0f * angle;//回転角を求める
                 myTransform.eulerAngles = worldAngle; // 回転角度を設定
                 angle -= color[j].ratio / 100.0f;
+            }
+            //割合の大きい順に並べ替える。
+            Array.Sort(rank);
+            Array.Reverse(rank);
+            //Colorクラスのcolor_rankにランキング順の情報を代入し直す
+            for(int i = 0; i<11; i++){
+                for(int j =0; j<11; j++){
+                    if(rank[i] == color[j].ratio){
+                        //英語から日本語表記に変換
+                        if(color[j].color == "red"){
+                            color_rank[i].color = "赤";
+                        }
+                        else if(color[j].color == "orange"){
+                            color_rank[i].color = "オレンジ";
+                        }
+                        else if(color[j].color == "yellow"){
+                            color_rank[i].color = "黄";
+                        }
+                        else if(color[j].color == "green"){
+                            color_rank[i].color = "緑";
+                        }
+                        else if(color[j].color == "blue"){
+                            color_rank[i].color = "青";
+                        }
+                        else if(color[j].color == "purple"){
+                            color_rank[i].color = "紫";
+                        }
+                        else if(color[j].color == "pink"){
+                            color_rank[i].color = "ピンク";
+                        }
+                        else if(color[j].color == "brown"){
+                            color_rank[i].color = "茶";
+                        }
+                        else if(color[j].color == "black"){
+                            color_rank[i].color = "黒";
+                        }
+                        else if(color[j].color == "gray"){
+                            color_rank[i].color = "灰";
+                        }
+                        else if(color[j].color == "white"){
+                            color_rank[i].color = "白";
+                        }
+                        color_rank[i].price = color[j].price;
+                        color_rank[i].ratio = color[j].ratio;
+                    }
+                }
+            }
+            for(int j = 0; j<11; j++){
+                // Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].color);
+                GameObject.Find(color_rank[j].rank).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";  
             }
             angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
