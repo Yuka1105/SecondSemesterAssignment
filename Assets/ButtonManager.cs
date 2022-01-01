@@ -68,6 +68,9 @@ public class ButtonManager : MonoBehaviour
         // 破棄時に、登録した実体の解除を行う
         if ( this == Instance ) instance = null;
     }
+    void Start(){
+        panel = panel_koku;
+    }
     void Update(){
       InputManager = GameObject.Find("InputManager");
       script = InputManager.GetComponent<InputManager>();
@@ -311,8 +314,6 @@ public class ButtonManager : MonoBehaviour
                     price_text.text = script.inputField.text + "円";
                     //値段の入力フォームの値を削除
                     script.inputField.text="";
-                    panel_category.SetActive(true);
-                    panel.SetActive(false);
                     panel_price.SetActive(false);
                 }
                 else{
@@ -322,13 +323,12 @@ public class ButtonManager : MonoBehaviour
 
             case "cancel":
                 script.inputField.text="";
-                panel_category.SetActive(true);
-                panel.SetActive(false);
                 panel_price.SetActive(false);
                 break;
             
             case "confirm":
                 //追加されている食材の数を数える
+                Debug.Log("決定1");
                 ObjCount = content.transform.childCount;
                 for(int i = 0; i < ObjCount; i++){
                     int length = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Length;//110円だったら4文字だから4が格納される。
@@ -336,7 +336,10 @@ public class ButtonManager : MonoBehaviour
                     food_name_end[i] = content.transform.GetChild(i).gameObject.name;//配列に食材名を保存
                     food_price_end[i] = int.Parse(price);//string型の値段をint型に変換
                 }
+                Debug.Log("決定2");
                 SceneManager.LoadScene("Home");
+                panel.SetActive(false);
+                panel_category.SetActive(true);
                 canvas.SetActive(false);
                 load_scene = true;
                 foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
@@ -345,11 +348,19 @@ public class ButtonManager : MonoBehaviour
                 break;
                 
             case "return":
-                SceneManager.LoadScene("Home");
+                Debug.Log("やめる");
+                panel.SetActive(false);
+                panel_category.SetActive(true);
                 canvas.SetActive(false);
+                SceneManager.LoadScene("Home");
                 foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
                     Destroy(child.gameObject);
                 }
+                break;
+
+            case "back"://各カテゴリパネルからカテゴリパネルへ戻るボタン
+                panel.SetActive(false);
+                panel_category.SetActive(true);
                 break;
 
             default:
