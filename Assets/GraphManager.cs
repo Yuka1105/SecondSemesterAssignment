@@ -153,13 +153,9 @@ public class GraphManager : MonoBehaviour
             }
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
-            //rankという名前の配列に割合の値を移す。
-            float[] rank = new float[11];
             for(int j = 0; j<11; j++){
                 //表
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
-                rank[j] = color[j].ratio;
-
                 //円グラフ
                 GameObject.Find("Image_" + color[j].color).GetComponent<Image>().fillAmount = color[j].ratio / 100.0f;
                 Transform myTransform = GameObject.Find("Image_" + color[j].color).transform;
@@ -169,50 +165,45 @@ public class GraphManager : MonoBehaviour
                 angle -= color[j].ratio / 100.0f;
             }
             //割合の大きい順に並べ替える。
-            Array.Sort(rank);
-            Array.Reverse(rank);
-            //Colorクラスのcolor_rankにランキング順の情報を代入し直す
-            for(int i = 0; i<11; i++){
-                for(int j =0; j<11; j++){
-                    if(rank[i] == color[j].ratio){
-                        //英語から日本語表記に変換
-                        if(color[j].color == "red"){
-                            color_rank[i].color = "赤";
-                        }
-                        else if(color[j].color == "orange"){
-                            color_rank[i].color = "オレンジ";
-                        }
-                        else if(color[j].color == "yellow"){
-                            color_rank[i].color = "黄";
-                        }
-                        else if(color[j].color == "green"){
-                            color_rank[i].color = "緑";
-                        }
-                        else if(color[j].color == "blue"){
-                            color_rank[i].color = "青";
-                        }
-                        else if(color[j].color == "purple"){
-                            color_rank[i].color = "紫";
-                        }
-                        else if(color[j].color == "pink"){
-                            color_rank[i].color = "ピンク";
-                        }
-                        else if(color[j].color == "brown"){
-                            color_rank[i].color = "茶";
-                        }
-                        else if(color[j].color == "black"){
-                            color_rank[i].color = "黒";
-                        }
-                        else if(color[j].color == "gray"){
-                            color_rank[i].color = "灰";
-                        }
-                        else if(color[j].color == "white"){
-                            color_rank[i].color = "白";
-                        }
-                        color_rank[i].price = color[j].price;
-                        color_rank[i].ratio = color[j].ratio;
-                    }
+            Array.Sort(color, (a, b) => b.price - a.price);
+            //ColorRankクラスのcolor_rankにランキング順の情報を代入し直す
+            for(int j =0; j<11; j++){
+                //英語から日本語表記に変換
+                if(color[j].color == "red"){
+                    color_rank[j].color = "赤";
                 }
+                else if(color[j].color == "orange"){
+                    color_rank[j].color = "オレンジ";
+                }
+                else if(color[j].color == "yellow"){
+                    color_rank[j].color = "黄";
+                }
+                else if(color[j].color == "green"){
+                    color_rank[j].color = "緑";
+                }
+                else if(color[j].color == "blue"){
+                    color_rank[j].color = "青";
+                }
+                else if(color[j].color == "purple"){
+                    color_rank[j].color = "紫";
+                }
+                else if(color[j].color == "pink"){
+                    color_rank[j].color = "ピンク";
+                }
+                else if(color[j].color == "brown"){
+                    color_rank[j].color = "茶";
+                }
+                else if(color[j].color == "black"){
+                    color_rank[j].color = "黒";
+                }
+                else if(color[j].color == "gray"){
+                    color_rank[j].color = "灰";
+                }
+                else if(color[j].color == "white"){
+                    color_rank[j].color = "白";
+                }
+                color_rank[j].price = color[j].price;
+                color_rank[j].ratio = color[j].ratio;
             }
             for(int j = 0; j<11; j++){
                 // Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
