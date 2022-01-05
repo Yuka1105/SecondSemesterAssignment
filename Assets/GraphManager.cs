@@ -16,6 +16,7 @@ public class ColorRank{//色のランキングのためのクラス
     public string color;
     public int price;
     public float ratio;
+    public UnityEngine.Color c;
 }
 
 public class MeatFish{//肉/魚別のためのクラス
@@ -154,15 +155,8 @@ public class GraphManager : MonoBehaviour
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
             for(int j = 0; j<11; j++){
-                //表
+                //割合を出す
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
-                //円グラフ
-                GameObject.Find("Image_" + color[j].color).GetComponent<Image>().fillAmount = color[j].ratio / 100.0f;
-                Transform myTransform = GameObject.Find("Image_" + color[j].color).transform;
-                Vector3 worldAngle = myTransform.eulerAngles;
-                worldAngle.z = 360.0f * angle;//回転角を求める
-                myTransform.eulerAngles = worldAngle; // 回転角度を設定
-                angle -= color[j].ratio / 100.0f;
             }
             //割合の大きい順に並べ替える。
             Array.Sort(color, (a, b) => b.price - a.price);
@@ -171,45 +165,67 @@ public class GraphManager : MonoBehaviour
                 //英語から日本語表記に変換
                 if(color[j].color == "red"){
                     color_rank[j].color = "赤";
+                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 0f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "orange"){
-                    color_rank[j].color = "オレンジ";
+                    color_rank[j].color = "橙";
+                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 140f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "yellow"){
                     color_rank[j].color = "黄";
+                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 255f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "green"){
                     color_rank[j].color = "緑";
+                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 255f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "blue"){
                     color_rank[j].color = "青";
+                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 0f / 255f, 255f / 255f);
                 }
                 else if(color[j].color == "purple"){
                     color_rank[j].color = "紫";
+                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 54f / 255f, 204f / 255f);
                 }
                 else if(color[j].color == "pink"){
-                    color_rank[j].color = "ピンク";
+                    color_rank[j].color = "桃";
+                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 143f / 255f, 204f / 255f);
                 }
                 else if(color[j].color == "brown"){
                     color_rank[j].color = "茶";
+                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 102f / 255f, 102f / 255f);
                 }
                 else if(color[j].color == "black"){
                     color_rank[j].color = "黒";
+                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 0f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "gray"){
                     color_rank[j].color = "灰";
+                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 153f / 255f, 153f / 255f);
                 }
                 else if(color[j].color == "white"){
                     color_rank[j].color = "白";
+                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f);
                 }
                 color_rank[j].price = color[j].price;
                 color_rank[j].ratio = color[j].ratio;
             }
             for(int j = 0; j<11; j++){
+                //円グラフ
+                GameObject.Find("Image_" + color[j].color).GetComponent<Image>().fillAmount = color[j].ratio / 100.0f;
+                Transform myTransform = GameObject.Find("Image_" + color[j].color).transform;
+                Vector3 worldAngle = myTransform.eulerAngles;
+                worldAngle.z = 360.0f * angle;//回転角を求める
+                myTransform.eulerAngles = worldAngle; // 回転角度を設定
+                angle -= color[j].ratio / 100.0f;
+            }
+            //表
+            for(int j = 0; j<11; j++){
                 // Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
-                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].color);
-                GameObject.Find(color_rank[j].rank).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
-                GameObject.Find(color_rank[j].rank).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";  
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (color_rank[j].color);
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).GetComponent<Image>().color = color_rank[j].c;
             }
             angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
