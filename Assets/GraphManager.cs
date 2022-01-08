@@ -23,12 +23,21 @@ public class MeatFish{//肉/魚別のためのクラス
     public string meatfish;
     public int price;
     public float ratio;
+    public UnityEngine.Color c;
 }
 
 public class Happy{//果物・嗜好別のためのクラス
     public string happy;
     public int price;
     public float ratio;
+    public UnityEngine.Color c;
+}
+
+public class Category{//カテゴリ別のためのクラス
+    public string category;
+    public int price;
+    public float ratio;
+    public UnityEngine.Color c;
 }
 
 public class GraphManager : MonoBehaviour
@@ -39,6 +48,7 @@ public class GraphManager : MonoBehaviour
     public GameObject panel_color;
     public GameObject panel_happy;
     public GameObject panel_meatfish;
+    public GameObject panel_category;
     List<int> month_value;
     string panel_kind;//今何のパネルを表示中か
     public GameObject color_button;
@@ -46,7 +56,9 @@ public class GraphManager : MonoBehaviour
     Color[] color = new Color[11];
     ColorRank[] color_rank = new ColorRank[11];
     MeatFish[] meatfish = new MeatFish[6];
+    string[] rank = new string[13];
     Happy[] happy = new Happy[8];
+    Category[] category = new Category[13];
     bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
 
     // Start is called before the first frame update
@@ -119,6 +131,20 @@ public class GraphManager : MonoBehaviour
      meatfish[4].meatfish = "豚肉";
      meatfish[5].meatfish = "鶏肉";
 
+     rank[0] = "first";
+     rank[1] = "second";
+     rank[2] = "third";
+     rank[3] = "fourth";
+     rank[4] = "fifth";
+     rank[5] = "sixth";
+     rank[6] = "seventh";
+     rank[7] = "eighth";
+     rank[8] = "ninth";
+     rank[9] = "tenth";
+     rank[10] = "eleventh";
+     rank[11] = "twelfth";
+     rank[12] = "thirteenth";
+
      for(int i = 0; i < 8; i++){
          happy[i] = new Happy();
      }
@@ -130,7 +156,25 @@ public class GraphManager : MonoBehaviour
      happy[5].happy = "チョコレート";
      happy[6].happy = "クッキー";
      happy[7].happy = "ケーキ";
+
+     for(int i = 0; i < 13; i++){
+         category[i] = new Category();
+     }
+     category[0].category = "穀類";
+     category[1].category = "肉類";
+     category[2].category = "魚介類";
+     category[3].category = "豆・豆食品";
+     category[4].category = "卵";
+     category[5].category = "牛乳・乳製品";
+     category[6].category = "緑黄色野菜";
+     category[7].category = "淡色野菜";
+     category[8].category = "キノコ類";
+     category[9].category = "イモ類";
+     category[10].category = "海藻類";
+     category[11].category = "果物";
+     category[12].category = "嗜好品";
     }
+    
     
     // Update is called once per frame
     void Update()
@@ -165,43 +209,43 @@ public class GraphManager : MonoBehaviour
                 //英語から日本語表記に変換
                 if(color[j].color == "red"){
                     color_rank[j].color = "赤";
-                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 0f / 255f, 0f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(232f / 255f, 57f / 255f, 41f / 255f);
                 }
                 else if(color[j].color == "orange"){
                     color_rank[j].color = "橙";
-                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 140f / 255f, 0f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(236f / 255f, 104f / 255f, 0f / 255f);
                 }
                 else if(color[j].color == "yellow"){
                     color_rank[j].color = "黄";
-                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 255f / 255f, 0f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(251f / 255f, 202f / 255f, 77f / 255f);
                 }
                 else if(color[j].color == "green"){
                     color_rank[j].color = "緑";
-                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 255f / 255f, 0f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(62f / 255f, 179f / 255f, 112f / 255f);
                 }
                 else if(color[j].color == "blue"){
                     color_rank[j].color = "青";
-                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 0f / 255f, 255f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(56f / 255f, 161f / 255f, 219f / 255f);
                 }
                 else if(color[j].color == "purple"){
                     color_rank[j].color = "紫";
-                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 54f / 255f, 204f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(112f / 255f, 88f / 255f, 163f / 255f);
                 }
                 else if(color[j].color == "pink"){
                     color_rank[j].color = "桃";
-                    color_rank[j].c = new UnityEngine.Color(255f / 255f, 143f / 255f, 204f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(240f / 255f, 145f / 255f, 153f / 255f);
                 }
                 else if(color[j].color == "brown"){
                     color_rank[j].color = "茶";
-                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 102f / 255f, 102f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(171f / 255f, 105f / 255f, 83f / 255f);
                 }
                 else if(color[j].color == "black"){
                     color_rank[j].color = "黒";
-                    color_rank[j].c = new UnityEngine.Color(0f / 255f, 0f / 255f, 0f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(89f / 255f, 88 / 255f, 87f / 255f);
                 }
                 else if(color[j].color == "gray"){
                     color_rank[j].color = "灰";
-                    color_rank[j].c = new UnityEngine.Color(153f / 255f, 153f / 255f, 153f / 255f);
+                    color_rank[j].c = new UnityEngine.Color(158f / 255f, 161f / 255f, 163f / 255f);
                 }
                 else if(color[j].color == "white"){
                     color_rank[j].color = "白";
@@ -250,12 +294,33 @@ public class GraphManager : MonoBehaviour
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
             for(int j = 0; j<6; j++){
-                //表
+                //割合を出す
                 meatfish[j].ratio = (float)Math.Round(((float)meatfish[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの食べ物の値段における割合。小数第二位で四捨五入
-                Debug.Log(meatfish[j].meatfish + "は合計" + meatfish[j].price + "円。全体の" + meatfish[j].ratio + "%");//結果
-                GameObject.Find(meatfish[j].meatfish).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (meatfish[j].price).ToString() + "円";
-                GameObject.Find(meatfish[j].meatfish).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
-
+            }
+            //割合の大きい順に並べ替える。
+            Array.Sort(meatfish, (a, b) => b.price - a.price);
+            //MeatFishクラスのmeatfishにパネルの色情報を代入し直す
+            for(int j =0; j<6; j++){
+                if(meatfish[j].meatfish == "イワシ"){
+                    meatfish[j].c = new UnityEngine.Color(131f / 255f, 204f / 255f, 210f / 255f);
+                }
+                else if(meatfish[j].meatfish == "タラ"){
+                    meatfish[j].c = new UnityEngine.Color(132f / 255f, 185f / 255f, 203f / 255f);
+                }
+                else if(meatfish[j].meatfish == "サケ"){
+                    meatfish[j].c = new UnityEngine.Color(132f / 255f, 162f / 255f, 212f / 255f);
+                }
+                else if(meatfish[j].meatfish == "牛肉"){
+                    meatfish[j].c = new UnityEngine.Color(223f / 255f, 113f / 255f, 99f / 255f);
+                }
+                else if(meatfish[j].meatfish == "豚肉"){
+                    meatfish[j].c = new UnityEngine.Color(224f / 255f, 129f / 255f, 94f / 255f);
+                }
+                else if(meatfish[j].meatfish == "鶏肉"){
+                    meatfish[j].c = new UnityEngine.Color(235f / 255f, 155f / 255f, 111f / 255f);
+                }
+            }
+            for(int j = 0; j<6; j++){
                 //円グラフ
                 GameObject.Find("Image_" + meatfish[j].meatfish).GetComponent<Image>().fillAmount = meatfish[j].ratio / 100.0f;
                 Transform myTransform = GameObject.Find("Image_" + meatfish[j].meatfish).transform;
@@ -263,6 +328,13 @@ public class GraphManager : MonoBehaviour
                 worldAngle.z = 360.0f * angle;//回転角を求める
                 myTransform.eulerAngles = worldAngle; // 回転角度を設定
                 angle -= meatfish[j].ratio / 100.0f;
+            }
+            for(int j = 0; j<6; j++){
+                //表
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (meatfish[j].meatfish);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (meatfish[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = meatfish[j].c;
             }
             angle = 0;//初期値に戻す
             for(int j = 0; j<6; j++){
@@ -287,12 +359,39 @@ public class GraphManager : MonoBehaviour
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
             for(int j = 0; j<8; j++){
-                //表
-                happy[j].ratio = (float)Math.Round(((float)happy[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
-                Debug.Log(happy[j].happy + "は合計" + happy[j].price + "円。全体の" + happy[j].ratio + "%");//結果
-                GameObject.Find(happy[j].happy).transform.GetChild(1).transform.GetChild(0).GetComponent<Text>().text = (happy[j].price).ToString() + "円";
-                GameObject.Find(happy[j].happy).transform.GetChild(2).transform.GetChild(0).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
-
+                //割合を出す
+                happy[j].ratio = (float)Math.Round(((float)happy[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの食べ物の値段における割合。小数第二位で四捨五入
+            }
+            //割合の大きい順に並べ替える。
+            Array.Sort(happy, (a, b) => b.price - a.price);
+            //MeatFishクラスのmeatfishにパネルの色情報を代入し直す
+            for(int j =0; j<8; j++){
+                if(happy[j].happy == "りんご"){
+                    happy[j].c = new UnityEngine.Color(235f / 255f, 98f / 255f, 56f / 255f);
+                }
+                else if(happy[j].happy == "みかん"){
+                     happy[j].c = new UnityEngine.Color(240f / 255f, 131f / 255f, 0f / 255f);
+                }
+                else if(happy[j].happy == "バナナ"){
+                    happy[j].c = new UnityEngine.Color(252f / 255f, 200f / 255f, 0f / 255f);
+                }
+                else if(happy[j].happy == "ぶどう"){
+                    happy[j].c = new UnityEngine.Color(162f / 255f, 87f / 255f, 104f / 255f);
+                }
+                else if(happy[j].happy == "いちご"){
+                    happy[j].c = new UnityEngine.Color(235f / 255f, 110f / 255f, 165f / 255f);
+                }
+                else if(happy[j].happy == "チョコレート"){
+                    happy[j].c = new UnityEngine.Color(159f / 255f, 111f / 255f, 85f / 255f);
+                }
+                else if(happy[j].happy == "クッキー"){
+                    happy[j].c = new UnityEngine.Color(248f / 255f, 184f / 255f, 98f / 255f);
+                }
+                else if(happy[j].happy == "ケーキ"){
+                    happy[j].c = new UnityEngine.Color(248f / 255f, 229f / 255f, 140f / 255f);
+                }
+            }
+            for(int j = 0; j<8; j++){
                 //円グラフ
                 GameObject.Find("Image_" + happy[j].happy).GetComponent<Image>().fillAmount = happy[j].ratio / 100.0f;
                 Transform myTransform = GameObject.Find("Image_" + happy[j].happy).transform;
@@ -301,11 +400,140 @@ public class GraphManager : MonoBehaviour
                 myTransform.eulerAngles = worldAngle; // 回転角度を設定
                 angle -= happy[j].ratio / 100.0f;
             }
+            for(int j = 0; j<8; j++){
+                //表
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (happy[j].happy);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (happy[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = happy[j].c;
+            }
             angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
                 happy[j].price = 0;//初期値に戻す
             }
+            
         }
+        if(panel_kind == "category"){//カテゴリ別を見ている時
+            Wrapper wrapper = new Wrapper();
+            wrapper.List = new List<SaveData>();
+            wrapper = script.Load();
+            int sum = 0;//値段の合計
+            for(int i = 0; i<wrapper.List.Count; i++){
+                if(wrapper.List[i].month == month_value[dropdown.value]){//今選択している月のデータのみ参照
+                    if(wrapper.List[i].food == "米" || wrapper.List[i].food == "パン" || wrapper.List[i].food == "麺"　|| wrapper.List[i].food == "餅"){
+                        category[0].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "牛肉" || wrapper.List[i].food == "豚肉" || wrapper.List[i].food == "鶏肉"){
+                        category[1].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "イワシ" || wrapper.List[i].food == "タラ" || wrapper.List[i].food == "サケ"){
+                        category[2].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "大豆" || wrapper.List[i].food == "豆腐" || wrapper.List[i].food == "納豆"){
+                        category[3].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "卵"){
+                        category[4].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "牛乳" || wrapper.List[i].food == "チーズ" || wrapper.List[i].food == "ヨーグルト"){
+                        category[5].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "トマト" || wrapper.List[i].food == "にんじん" || wrapper.List[i].food == "ブロッコリー"){
+                        category[6].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "白菜" || wrapper.List[i].food == "玉ねぎ" || wrapper.List[i].food == "キャベツ"){
+                        category[7].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "しめじ" || wrapper.List[i].food == "マイタケ" || wrapper.List[i].food == "えのき"){
+                        category[8].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "ジャガイモ" || wrapper.List[i].food == "さつまいも" || wrapper.List[i].food == "こんにゃく"){
+                        category[9].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "ワカメ" || wrapper.List[i].food == "ヒジキ"){
+                        category[10].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "りんご" || wrapper.List[i].food == "みかん"|| wrapper.List[i].food == "バナナ" || wrapper.List[i].food == "ぶどう" ||wrapper.List[i].food == "いちご"){
+                        category[11].price += wrapper.List[i].price;
+                    }
+                    else if(wrapper.List[i].food == "チョコレート" || wrapper.List[i].food == "クッキー"|| wrapper.List[i].food == "ケーキ"){
+                        category[12].price += wrapper.List[i].price;
+                    }
+                    sum += wrapper.List[i].price;//値段の合計を増やす。
+                }
+            }
+            //最終的な結果を表示
+            float angle = 0.0f;//円グラフの回転角を増やすための変数
+            for(int j = 0; j<13; j++){
+                //割合を出す
+                category[j].ratio = (float)Math.Round(((float)category[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの食べ物の値段における割合。小数第二位で四捨五入
+            }
+            //割合の大きい順に並べ替える。
+            Array.Sort(category, (a, b) => b.price - a.price);
+            //MeatFishクラスのmeatfishにパネルの色情報を代入し直す
+            for(int j =0; j<13; j++){
+                if(category[j].category == "穀類"){
+                    category[j].c = new UnityEngine.Color(242f / 255f, 201f / 255f, 172f / 255f);
+                }
+                else if(category[j].category == "肉類"){
+                     category[j].c = new UnityEngine.Color(238f / 255f, 121f / 255f, 72f / 255f);
+                }
+                else if(category[j].category == "魚介類"){
+                    category[j].c = new UnityEngine.Color(89f / 255f, 185f / 255f, 198f / 255f);
+                }
+                else if(category[j].category == "豆・豆食品"){
+                    category[j].c = new UnityEngine.Color(237f / 255f, 211f / 255f, 161f / 255f);
+                }
+                else if(category[j].category == "卵"){
+                    category[j].c = new UnityEngine.Color(255f / 255f, 219f / 255f, 79f / 255f);
+                }
+                else if(category[j].category == "牛乳・乳製品"){
+                    category[j].c = new UnityEngine.Color(251f / 255f, 250f / 255f, 245f / 255f);
+                }
+                else if(category[j].category == "緑黄色野菜"){
+                    category[j].c = new UnityEngine.Color(220f / 255f, 203f / 255f, 24f / 255f);
+                }
+                else if(category[j].category == "淡色野菜"){
+                    category[j].c = new UnityEngine.Color(216f / 255f, 230f / 255f, 152f / 255f);
+                }
+                else if(category[j].category == "キノコ類"){
+                    category[j].c = new UnityEngine.Color(180f / 255f, 134f / 255f, 107f / 255f);
+                }
+                else if(category[j].category == "イモ類"){
+                    category[j].c = new UnityEngine.Color(242f / 255f, 242f / 255f, 176f / 255f);
+                }
+                else if(category[j].category == "海藻類"){
+                    category[j].c = new UnityEngine.Color(105f / 255f, 176f / 255f, 118f / 255f);
+                }
+                else if(category[j].category == "果物"){
+                    category[j].c = new UnityEngine.Color(243f / 255f, 152f / 255f, 0f / 255f);
+                }
+                else if(category[j].category == "嗜好品"){
+                    category[j].c = new UnityEngine.Color(242f / 255f, 160f / 255f, 161f / 255f);
+                }
+            }
+            for(int j = 0; j<13; j++){
+                //円グラフ
+                GameObject.Find("Image_" + category[j].category).GetComponent<Image>().fillAmount = category[j].ratio / 100.0f;
+                Transform myTransform = GameObject.Find("Image_" + category[j].category).transform;
+                Vector3 worldAngle = myTransform.eulerAngles;
+                worldAngle.z = 360.0f * angle;//回転角を求める
+                myTransform.eulerAngles = worldAngle; // 回転角度を設定
+                angle -= category[j].ratio / 100.0f;
+            }
+            for(int j = 0; j<13; j++){
+                //表
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (category[j].category);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (category[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (category[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = category[j].c;
+            }
+            angle = 0;//初期値に戻す
+            for(int j = 0; j<13; j++){
+                category[j].price = 0;//初期値に戻す
+            }
+        }
+        
         push_button = false;
      }
      
@@ -318,6 +546,7 @@ public class GraphManager : MonoBehaviour
                 panel_color.SetActive(true);
                 panel_happy.SetActive(false);
                 panel_meatfish.SetActive(false);
+                panel_category.SetActive(false);
                 panel_kind = "color";
                 push_button = true;
                 break;
@@ -325,6 +554,7 @@ public class GraphManager : MonoBehaviour
                 panel_color.SetActive(false);
                 panel_happy.SetActive(true);
                 panel_meatfish.SetActive(false);
+                panel_category.SetActive(false);
                 panel_kind = "happy";
                 push_button = true;
                 break;
@@ -332,7 +562,16 @@ public class GraphManager : MonoBehaviour
                 panel_color.SetActive(false);
                 panel_happy.SetActive(false);
                 panel_meatfish.SetActive(true);
+                panel_category.SetActive(false);
                 panel_kind = "meatfish";
+                push_button = true;
+                break;
+            case "category":
+                panel_color.SetActive(false);
+                panel_happy.SetActive(false);
+                panel_meatfish.SetActive(false);
+                panel_category.SetActive(true);
+                panel_kind = "category";
                 push_button = true;
                 break;
     
