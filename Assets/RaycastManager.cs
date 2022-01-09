@@ -22,6 +22,7 @@ public class SaveData //セーブデータ用のクラス
 }
 public class RaycastManager : MonoBehaviour
 {
+    public bool ate = false;//食べ物を食べたかどうか（CharacterAnimater.csで使う）
     private static RaycastManager instance = null;
 
     // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録する
@@ -119,28 +120,30 @@ public class RaycastManager : MonoBehaviour
             {
                 string tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
                 if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
-                {
-                    FoodProvider = GameObject.Find("FoodProvider"); 
-                    script = FoodProvider.GetComponent<FoodProvider>();
-                    TodayNow = DateTime.Now; //時間を取得
-                    SaveData saveData = new SaveData();
-                    saveData.month = TodayNow.Month;
-                    saveData.day = TodayNow.Day;
-                    saveData.food = rayHit.collider.gameObject.name;
-                    int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
-                    saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
-                    saveData.color = tag;
-                    for(int i = 0; i < script.script.ObjCount; i++){
-                        if(rayHit.collider.gameObject == script.food[i].insta_obj){
-                            saveData.price = script.food[i].food_price;
+                {   if(ate == false){//キャラクターの食べるアニメーションが終わる(=false)まで実行しない
+                        ate = true;
+                        FoodProvider = GameObject.Find("FoodProvider"); 
+                        script = FoodProvider.GetComponent<FoodProvider>();
+                        TodayNow = DateTime.Now; //時間を取得
+                        SaveData saveData = new SaveData();
+                        saveData.month = TodayNow.Month;
+                        saveData.day = TodayNow.Day;
+                        saveData.food = rayHit.collider.gameObject.name;
+                        int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
+                        saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
+                        saveData.color = tag;
+                        for(int i = 0; i < script.script.ObjCount; i++){
+                            if(rayHit.collider.gameObject == script.food[i].insta_obj){
+                                saveData.price = script.food[i].food_price;
+                            }
                         }
+                        Wrapper wrapper = new Wrapper();
+                        wrapper.List = new List<SaveData>();
+                        wrapper = Load();
+                        wrapper.List.Add(saveData);
+                        Save(wrapper);
+                        Destroy(rayHit.collider.gameObject);//食べ物を消す
                     }
-                    Wrapper wrapper = new Wrapper();
-                    wrapper.List = new List<SaveData>();
-                    wrapper = Load();
-                    wrapper.List.Add(saveData);
-                    Save(wrapper);
-                    Destroy(rayHit.collider.gameObject);//食べ物を消す
                 }
                 if(tag == "book"){
                     SceneManager.LoadScene("Book");
