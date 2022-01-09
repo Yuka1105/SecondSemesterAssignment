@@ -35,7 +35,7 @@ public class CharacterAnimater : MonoBehaviour
         else if(script.ate == true){
             //食べるアニメーション
             float z = GetComponent<Transform>().rotation.z;
-            this.transform.Rotate(new Vector3(0, 0, velocity2 * 0.60f));
+            this.transform.Rotate(new Vector3(0, 0, velocity2 * 1.20f));
             if(count == 0){
                 if(z < 0.49f){ //初期値0.53から0.49まで減らす
                     velocity2 = -1;//なぜかこれで増える
