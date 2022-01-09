@@ -118,12 +118,12 @@ public class RaycastManager : MonoBehaviour
             bool isHit = Physics.Raycast(ray, out rayHit, maxDistance);
             if (isHit)
             {
+                FoodProvider = GameObject.Find("FoodProvider"); 
+                script = FoodProvider.GetComponent<FoodProvider>();
                 string tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
                 if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
                 {   if(ate == false){//キャラクターの食べるアニメーションが終わる(=false)まで実行しない
                         ate = true;
-                        FoodProvider = GameObject.Find("FoodProvider"); 
-                        script = FoodProvider.GetComponent<FoodProvider>();
                         TodayNow = DateTime.Now; //時間を取得
                         SaveData saveData = new SaveData();
                         saveData.month = TodayNow.Month;
@@ -143,13 +143,16 @@ public class RaycastManager : MonoBehaviour
                         wrapper.List.Add(saveData);
                         Save(wrapper);
                         Destroy(rayHit.collider.gameObject);//食べ物を消す
+                        script.food_num --;
                     }
                 }
-                if(tag == "book"){
-                    SceneManager.LoadScene("Book");
-                }
-                if(tag == "calendar"){
-                    SceneManager.LoadScene("Calendar");
+                if(script.food_num == 0 && ate == false){//食べ物が画面上にない場合、食べている最中ではないのみ、図鑑とカレンダーを押せる
+                    if(tag == "book"){
+                        SceneManager.LoadScene("Book");
+                    }
+                    if(tag == "calendar"){
+                        SceneManager.LoadScene("Calendar");
+                    }
                 }
             }
         }

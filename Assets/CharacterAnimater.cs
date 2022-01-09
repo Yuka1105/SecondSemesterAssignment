@@ -46,7 +46,7 @@ public class CharacterAnimater : MonoBehaviour
                 }
             }
             else if(count == 1){
-                if(z < 0.45f){ //0.58から0.49まで減らす
+                if(z < 0.45f){ //0.58から0.45まで減らす
                     velocity2 = -1;//なぜかこれで増える
                     count = 2;
                 }
