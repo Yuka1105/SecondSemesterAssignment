@@ -76,7 +76,7 @@ public class CharacterManager : MonoBehaviour
             Renderer renderer = GetComponent<Renderer>();
             Material[] mats = renderer.materials;
             UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 247f / 255f, 153f / 255f);
-            mats[1].color = c;
+            mats[2].color = c;
             renderer.materials = mats;
         }
         else if(color_num == 1){//今月1色の場合
@@ -87,57 +87,57 @@ public class CharacterManager : MonoBehaviour
                 if(wrapper.List[i].month == month){//今月のデータのみ参照
                     if(wrapper.List[i].color == "red"){
                         UnityEngine.Color c = new UnityEngine.Color(232f / 255f, 57f / 255f, 41f / 255f);;
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "orange"){
                         UnityEngine.Color c = new UnityEngine.Color(236f / 255f, 104f / 255f, 0f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "yellow"){
                         UnityEngine.Color c = new UnityEngine.Color(251f / 255f, 202f / 255f, 77f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "green"){
                         UnityEngine.Color c = new UnityEngine.Color(62f / 255f, 179f / 255f, 112f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "blue"){
                         UnityEngine.Color c = new UnityEngine.Color(56f / 255f, 161f / 255f, 219f / 255f);;
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "purple"){
                         UnityEngine.Color c = new UnityEngine.Color(112f / 255f, 88f / 255f, 163f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "pink"){
                         UnityEngine.Color c = new UnityEngine.Color(240f / 255f, 145f / 255f, 153f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "brown"){
                         UnityEngine.Color c = new UnityEngine.Color(171f / 255f, 105f / 255f, 83f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "black"){
                         UnityEngine.Color c = new UnityEngine.Color(89f / 255f, 88 / 255f, 87f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "gray"){
                         UnityEngine.Color c = new UnityEngine.Color(158f / 255f, 161f / 255f, 163f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                     else if(wrapper.List[i].color == "white"){
                         UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f);
-                        mats[1].color = c;
+                        mats[2].color = c;
                         renderer.materials = mats;
                     }
                 }
@@ -208,7 +208,7 @@ public class CharacterManager : MonoBehaviour
             Material[] mats = renderer.materials;
             //2色について、それぞれの割合から色の配分を決めて、色を足し合わせる。
             UnityEngine.Color c = twocolor[0].c * (twocolor[0].ratio/(twocolor[0].ratio + twocolor[1].ratio)) + twocolor[1].c * (twocolor[1].ratio/(twocolor[0].ratio + twocolor[1].ratio));
-            mats[1].color = c;
+            mats[2].color = c;
             renderer.materials = mats;
         }
         for(int j = 0; j<11; j++){
