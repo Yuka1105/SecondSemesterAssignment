@@ -212,7 +212,7 @@ public class GraphManager : MonoBehaviour
                         }
                     }
                 }
-                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] != 1) && wrapper.List[i].month == (month_value[dropdown.value] - 1)){//今選択している月(1月以外)の前の月のデータのみ参照 ただしデータの一番最初の月は除く
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] != 1) && (wrapper.List[i].month == (month_value[dropdown.value] - 1))){//今選択している月(1月以外)の前の月のデータのみ参照 ただしデータの一番最初の月は除く
                     for(int j = 0; j<11; j++){
                         if(wrapper.List[i].color == color2[j].color){
                             color2[j].price += wrapper.List[i].price;
@@ -303,45 +303,76 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).GetComponent<Image>().color = color_rank[j].c;
             }
             //updown表示
-            if(wrapper.List[0].month != month_value[dropdown.value]){
+            if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
+                for(int i =0; i<11; i++){
+                    string rank = "a";
+                    if(i == 0){
+                        rank = "first";
+                    }else if(i == 1){
+                        rank = "second";
+                    }else if(i == 2){
+                        rank = "third";
+                    }else if(i == 3){
+                        rank = "fourth";
+                    }else if(i == 4){
+                        rank = "fifth";
+                    }else if(i == 5){
+                        rank = "sixth";
+                    }else if(i == 6){
+                        rank = "seventh";
+                    }else if(i == 7){
+                        rank = "eighth";
+                    }else if(i == 8){
+                        rank = "ninth";
+                    }else if(i == 9){
+                        rank = "tenth";
+                    }else if(i == 10){
+                        rank = "eleventh";
+                    }
+                    GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
+            }
+            if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
                 Array.Sort(color2, (a, b) => b.price - a.price);
                 //updown表示の計算
                 for(int i =0; i<11; i++){
                     string rank = "a";
-                            if(i == 0){
-                                rank = "first";
-                            }else if(i == 1){
-                                rank = "second";
-                            }else if(i == 2){
-                                rank = "third";
-                            }else if(i == 3){
-                                rank = "fourth";
-                            }else if(i == 4){
-                                rank = "fifth";
-                            }else if(i == 5){
-                                rank = "sixth";
-                            }else if(i == 6){
-                                rank = "seventh";
-                            }else if(i == 7){
-                                rank = "eighth";
-                            }else if(i == 8){
-                                rank = "ninth";
-                            }else if(i == 9){
-                                rank = "tenth";
-                            }else if(i == 10){
-                                rank = "eleventh";
-                            }
-                            Debug.Log(rank);
+                    if(i == 0){
+                        rank = "first";
+                    }else if(i == 1){
+                        rank = "second";
+                    }else if(i == 2){
+                        rank = "third";
+                    }else if(i == 3){
+                        rank = "fourth";
+                    }else if(i == 4){
+                        rank = "fifth";
+                    }else if(i == 5){
+                        rank = "sixth";
+                    }else if(i == 6){
+                        rank = "seventh";
+                    }else if(i == 7){
+                        rank = "eighth";
+                    }else if(i == 8){
+                        rank = "ninth";
+                    }else if(i == 9){
+                        rank = "tenth";
+                    }else if(i == 10){
+                        rank = "eleventh";
+                    }
                     for(int j =0; j<11; j++){
                         if(color[i].color == color2[j].color){
                             if( i < j ){
                                 GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if( i == j ){
                                 GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if( i > j ){
                                 GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
