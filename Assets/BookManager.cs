@@ -23,6 +23,7 @@ public class BookManager : MonoBehaviour
     public Text text_times;
     public Text text_lastday;
     public Text foodnametext;
+    public Sprite[] m_Sprite;
     // Start is called before the first frame update
     void Start()
     {
@@ -99,6 +100,12 @@ public class BookManager : MonoBehaviour
                     cloneObject.name = item[i].food;
                     Text food_text = cloneObject.transform.GetChild(0).GetComponent<Text>();
                     food_text.text = item[i].food;
+                    if(item[i].times > 19 && item[i].times < 30){
+                        cloneObject.GetComponent<Image>().sprite = m_Sprite[0];
+                    }
+                    else if(item[i].times > 29){
+                        cloneObject.GetComponent<Image>().sprite = m_Sprite[1];
+                    }
                 }
             }
             if(wrapper.List.Count > 0){//リストに１つでもデータがある、つまり図鑑にボタンが一つでもある場合
