@@ -645,6 +645,9 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = happy[j].c;
                  //同率処理：値段が一個前の順位のものと同じだった場合
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = happy[j].end_rank.ToString() + "位";
+                if(happy[j].happy == "チョコレート"){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                }
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
@@ -1064,6 +1067,34 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = category[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = category[j].end_rank.ToString() + "位";
+                if(j > 2){//1,2,3位
+                    if(category[j].category == "牛乳・乳製品"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                    }
+                    else if(category[j].category == "豆・豆食品"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize =30;
+                    }
+                    else if(category[j].category == "緑黄色野菜"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 30;
+                    }
+                    else if(category[j].category == "淡色野菜"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 37;
+                    }
+                    else if(category[j].category == "キノコ類"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 37;
+                    }
+                }
+                else{//4位〜
+                    if(category[j].category == "牛乳・乳製品"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                    }
+                    else if(category[j].category == "豆・豆食品"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize =30;
+                    }
+                    else if(category[j].category == "緑黄色野菜"){
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 30;
+                    }
+                }
             }
              //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
