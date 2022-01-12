@@ -10,6 +10,7 @@ public class Color{//色別のためのクラス
     public string color;
     public int price;
     public float ratio;
+    public int end_rank;
 }
 public class ColorRank{//色のランキングのためのクラス
     public string rank;
@@ -272,6 +273,21 @@ public class GraphManager : MonoBehaviour
             }
             //値段の大きい順に並べ替える。
             Array.Sort(color, (a, b) => b.price - a.price);
+            //同率処理のための
+            int end = 1;
+            int jump = 0;
+            color[0].end_rank = 1;
+            for(int i =1; i<11; i++){
+                if(color[i].price == color[i-1].price){
+                    color[i].end_rank = end;
+                    jump++;
+                }
+                else{
+                    end = end  + jump + 1;
+                    color[i].end_rank = end;
+                    jump = 0;
+                }
+            }
             //ColorRankクラスのcolor_rankにランキング順の情報を代入し直す
             for(int j =0; j<11; j++){
                 //英語から日本語表記に変換
@@ -338,6 +354,8 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).GetComponent<Image>().color = color_rank[j].c;
+                //同率処理：値段が一個前の順位のものと同じだった場合
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = color[j].end_rank.ToString() + "位";
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
@@ -347,19 +365,34 @@ public class GraphManager : MonoBehaviour
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
                 Array.Sort(color2, (a, b) => b.price - a.price);
+                //同率処理のための
+                end = 1;
+                jump = 0;
+                color2[0].end_rank = 1;
+                for(int i =1; i<11; i++){
+                    if(color2[i].price == color2[i-1].price){
+                        color2[i].end_rank = end;
+                        jump++;
+                    }
+                    else{
+                        end = end  + jump + 1;
+                        color2[i].end_rank = end;
+                        jump = 0;
+                    }
+                }
                 //updown表示の計算
                 for(int i =0; i<11; i++){
                     for(int j =0; j<11; j++){
                         if(color[i].color == color2[j].color){
-                            if( i < j ){
+                            if( color[i].end_rank < color2[j].end_rank ){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
-                            else if( i == j ){
+                            else if(color[i].end_rank == color2[j].end_rank){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
-                            else if( i > j ){
+                            else if(color[i].end_rank > color2[j].end_rank){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
