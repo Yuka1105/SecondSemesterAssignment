@@ -57,6 +57,7 @@ public class GraphManager : MonoBehaviour
     Color[] color2 = new Color[11];//前の月の色
     ColorRank[] color_rank = new ColorRank[11];
     MeatFish[] meatfish = new MeatFish[6];
+    MeatFish[] meatfish2 = new MeatFish[6];
     string[] rank = new string[13];
     Happy[] happy = new Happy[8];
     Category[] category = new Category[13];
@@ -140,6 +141,7 @@ public class GraphManager : MonoBehaviour
 
      for(int i = 0; i < 6; i++){
          meatfish[i] = new MeatFish();
+         meatfish2[i] = new MeatFish();
      }
      meatfish[0].meatfish = "イワシ";
      meatfish[1].meatfish = "タラ";
@@ -147,6 +149,13 @@ public class GraphManager : MonoBehaviour
      meatfish[3].meatfish = "牛肉";
      meatfish[4].meatfish = "豚肉";
      meatfish[5].meatfish = "鶏肉";
+
+     meatfish2[0].meatfish = "イワシ";
+     meatfish2[1].meatfish = "タラ";
+     meatfish2[2].meatfish = "サケ";
+     meatfish2[3].meatfish = "牛肉";
+     meatfish2[4].meatfish = "豚肉";
+     meatfish2[5].meatfish = "鶏肉";
 
      rank[0] = "first";
      rank[1] = "second";
@@ -305,74 +314,26 @@ public class GraphManager : MonoBehaviour
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
                 for(int i =0; i<11; i++){
-                    string rank = "a";
-                    if(i == 0){
-                        rank = "first";
-                    }else if(i == 1){
-                        rank = "second";
-                    }else if(i == 2){
-                        rank = "third";
-                    }else if(i == 3){
-                        rank = "fourth";
-                    }else if(i == 4){
-                        rank = "fifth";
-                    }else if(i == 5){
-                        rank = "sixth";
-                    }else if(i == 6){
-                        rank = "seventh";
-                    }else if(i == 7){
-                        rank = "eighth";
-                    }else if(i == 8){
-                        rank = "ninth";
-                    }else if(i == 9){
-                        rank = "tenth";
-                    }else if(i == 10){
-                        rank = "eleventh";
-                    }
-                    GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
                 Array.Sort(color2, (a, b) => b.price - a.price);
                 //updown表示の計算
                 for(int i =0; i<11; i++){
-                    string rank = "a";
-                    if(i == 0){
-                        rank = "first";
-                    }else if(i == 1){
-                        rank = "second";
-                    }else if(i == 2){
-                        rank = "third";
-                    }else if(i == 3){
-                        rank = "fourth";
-                    }else if(i == 4){
-                        rank = "fifth";
-                    }else if(i == 5){
-                        rank = "sixth";
-                    }else if(i == 6){
-                        rank = "seventh";
-                    }else if(i == 7){
-                        rank = "eighth";
-                    }else if(i == 8){
-                        rank = "ninth";
-                    }else if(i == 9){
-                        rank = "tenth";
-                    }else if(i == 10){
-                        rank = "eleventh";
-                    }
                     for(int j =0; j<11; j++){
                         if(color[i].color == color2[j].color){
                             if( i < j ){
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if( i == j ){
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if( i > j ){
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
-                                GameObject.Find(rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
@@ -395,6 +356,20 @@ public class GraphManager : MonoBehaviour
                         if(wrapper.List[i].food == meatfish[j].meatfish){//例えばデータ内の食べ物がサケだった場合meatfishクラスのサケのインスタンスの値段を増やす。
                             meatfish[j].price += wrapper.List[i].price;
                             sum += wrapper.List[i].price;//値段の合計を増やす。
+                        }
+                    }
+                }
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] != 1) && (wrapper.List[i].month == (month_value[dropdown.value] - 1))){//今選択している月(1月以外)の前の月のデータのみ参照 ただしデータの一番最初の月は除く
+                    for(int j = 0; j<6; j++){
+                        if(wrapper.List[i].food == meatfish2[j].meatfish){
+                            meatfish2[j].price += wrapper.List[i].price;
+                        }
+                    }
+                }
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] == 1) && (wrapper.List[i].month == 12)){//今選択している月が1月の場合は前の月として12月を参照　ただしデータの一番最初の月は除く
+                    for(int j = 0; j<6; j++){
+                        if(wrapper.List[i].food == meatfish2[j].meatfish){
+                            meatfish2[j].price += wrapper.List[i].price;
                         }
                     }
                 }
@@ -444,9 +419,38 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = meatfish[j].c;
             }
+            //updown表示
+            if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
+                for(int i =0; i<6; i++){
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
+            }
+            if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
+                Array.Sort(meatfish2, (a, b) => b.price - a.price);
+                //updown表示の計算
+                for(int i =0; i<6; i++){
+                    for(int j =0; j<6; j++){
+                        if(meatfish[i].meatfish == meatfish2[j].meatfish){
+                            if( i < j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i == j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i > j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                        }
+                    }
+                }
+            }
             angle = 0;//初期値に戻す
             for(int j = 0; j<6; j++){
                 meatfish[j].price = 0;//初期値に戻す
+                meatfish2[j].price = 0;//初期値に戻す
             }
         }
         if(panel_kind == "happy"){//果物・嗜好別を見ている時
