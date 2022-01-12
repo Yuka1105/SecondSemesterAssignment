@@ -60,7 +60,9 @@ public class GraphManager : MonoBehaviour
     MeatFish[] meatfish2 = new MeatFish[6];
     string[] rank = new string[13];
     Happy[] happy = new Happy[8];
+    Happy[] happy2 = new Happy[8];
     Category[] category = new Category[13];
+    Category[] category2= new Category[13];
     bool push_button = false;//ボタンを押したかの判定。ボタンを押したタイミングでも表の表示を切り替えたい。
     public Sprite[] m_Sprite;
 
@@ -173,6 +175,7 @@ public class GraphManager : MonoBehaviour
 
      for(int i = 0; i < 8; i++){
          happy[i] = new Happy();
+         happy2[i] = new Happy();
      }
      happy[0].happy = "りんご";
      happy[1].happy = "みかん";
@@ -183,8 +186,18 @@ public class GraphManager : MonoBehaviour
      happy[6].happy = "クッキー";
      happy[7].happy = "ケーキ";
 
+     happy2[0].happy = "りんご";
+     happy2[1].happy = "みかん";
+     happy2[2].happy = "バナナ";
+     happy2[3].happy = "ぶどう";
+     happy2[4].happy = "いちご";
+     happy2[5].happy = "チョコレート";
+     happy2[6].happy = "クッキー";
+     happy2[7].happy = "ケーキ";
+
      for(int i = 0; i < 13; i++){
          category[i] = new Category();
+         category2[i] = new Category();
      }
      category[0].category = "穀類";
      category[1].category = "肉類";
@@ -199,7 +212,22 @@ public class GraphManager : MonoBehaviour
      category[10].category = "海藻類";
      category[11].category = "果物";
      category[12].category = "嗜好品";
+
+     category2[0].category = "穀類";
+     category2[1].category = "肉類";
+     category2[2].category = "魚介類";
+     category2[3].category = "豆・豆食品";
+     category2[4].category = "卵";
+     category2[5].category = "牛乳・乳製品";
+     category2[6].category = "緑黄色野菜";
+     category2[7].category = "淡色野菜";
+     category2[8].category = "キノコ類";
+     category2[9].category = "イモ類";
+     category2[10].category = "海藻類";
+     category2[11].category = "果物";
+     category2[12].category = "嗜好品";
     }
+    
     
     
     // Update is called once per frame
@@ -467,6 +495,20 @@ public class GraphManager : MonoBehaviour
                         }
                     }
                 }
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] != 1) && (wrapper.List[i].month == (month_value[dropdown.value] - 1))){//今選択している月(1月以外)の前の月のデータのみ参照 ただしデータの一番最初の月は除く
+                    for(int j = 0; j<8; j++){
+                        if(wrapper.List[i].food == happy2[j].happy){
+                            happy2[j].price += wrapper.List[i].price;
+                        }
+                    }
+                }
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] == 1) && (wrapper.List[i].month == 12)){//今選択している月が1月の場合は前の月として12月を参照　ただしデータの一番最初の月は除く
+                    for(int j = 0; j<8; j++){
+                        if(wrapper.List[i].food == happy2[j].happy){
+                            happy2[j].price += wrapper.List[i].price;
+                        }
+                    }
+                }
             }
             //最終的な結果を表示
             float angle = 0.0f;//円グラフの回転角を増やすための変数
@@ -519,9 +561,38 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = happy[j].c;
             }
+            //updown表示
+            if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
+                for(int i =0; i<8; i++){
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
+            }
+            if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
+                Array.Sort(happy2, (a, b) => b.price - a.price);
+                //updown表示の計算
+                for(int i =0; i<8; i++){
+                    for(int j =0; j<8; j++){
+                        if(happy[i].happy == happy2[j].happy){
+                            if( i < j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i == j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i > j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                        }
+                    }
+                }
+            }
             angle = 0;//初期値に戻す
             for(int j = 0; j<11; j++){
                 happy[j].price = 0;//初期値に戻す
+                happy2[j].price = 0;//初期値に戻す
             }
             
         }
@@ -624,6 +695,191 @@ public class GraphManager : MonoBehaviour
                         }
                     }
                     sum += wrapper.List[i].price;//値段の合計を増やす。
+                }else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] != 1) && (wrapper.List[i].month == (month_value[dropdown.value] - 1))){//今選択している月(1月以外)の前の月のデータのみ参照 ただしデータの一番最初の月は除く
+                    if(wrapper.List[i].food == "米" || wrapper.List[i].food == "パン" || wrapper.List[i].food == "麺"　|| wrapper.List[i].food == "餅"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "穀類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "牛肉" || wrapper.List[i].food == "豚肉" || wrapper.List[i].food == "鶏肉"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "肉類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "イワシ" || wrapper.List[i].food == "タラ" || wrapper.List[i].food == "サケ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "魚介類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "大豆" || wrapper.List[i].food == "豆腐" || wrapper.List[i].food == "納豆"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "豆・豆食品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "卵"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "卵"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "牛乳" || wrapper.List[i].food == "チーズ" || wrapper.List[i].food == "ヨーグルト"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "牛乳・乳製品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "トマト" || wrapper.List[i].food == "にんじん" || wrapper.List[i].food == "ブロッコリー"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "緑黄色野菜"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "白菜" || wrapper.List[i].food == "玉ねぎ" || wrapper.List[i].food == "キャベツ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "淡色野菜"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "しめじ" || wrapper.List[i].food == "マイタケ" || wrapper.List[i].food == "えのき"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "キノコ類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "ジャガイモ" || wrapper.List[i].food == "さつまいも" || wrapper.List[i].food == "こんにゃく"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "イモ類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "ワカメ" || wrapper.List[i].food == "ヒジキ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "海藻類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "りんご" || wrapper.List[i].food == "みかん"|| wrapper.List[i].food == "バナナ" || wrapper.List[i].food == "ぶどう" ||wrapper.List[i].food == "いちご"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "果物"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "チョコレート" || wrapper.List[i].food == "クッキー"|| wrapper.List[i].food == "ケーキ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "嗜好品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                }
+                else if((wrapper.List[0].month != month_value[dropdown.value]) && (month_value[dropdown.value] == 1) && (wrapper.List[i].month == 12)){//今選択している月が1月の場合は前の月として12月を参照　ただしデータの一番最初の月は除く
+                    if(wrapper.List[i].food == "米" || wrapper.List[i].food == "パン" || wrapper.List[i].food == "麺"　|| wrapper.List[i].food == "餅"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "穀類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "牛肉" || wrapper.List[i].food == "豚肉" || wrapper.List[i].food == "鶏肉"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "肉類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "イワシ" || wrapper.List[i].food == "タラ" || wrapper.List[i].food == "サケ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "魚介類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "大豆" || wrapper.List[i].food == "豆腐" || wrapper.List[i].food == "納豆"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "豆・豆食品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "卵"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "卵"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "牛乳" || wrapper.List[i].food == "チーズ" || wrapper.List[i].food == "ヨーグルト"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "牛乳・乳製品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "トマト" || wrapper.List[i].food == "にんじん" || wrapper.List[i].food == "ブロッコリー"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "緑黄色野菜"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "白菜" || wrapper.List[i].food == "玉ねぎ" || wrapper.List[i].food == "キャベツ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "淡色野菜"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "しめじ" || wrapper.List[i].food == "マイタケ" || wrapper.List[i].food == "えのき"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "キノコ類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "ジャガイモ" || wrapper.List[i].food == "さつまいも" || wrapper.List[i].food == "こんにゃく"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "イモ類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "ワカメ" || wrapper.List[i].food == "ヒジキ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "海藻類"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "りんご" || wrapper.List[i].food == "みかん"|| wrapper.List[i].food == "バナナ" || wrapper.List[i].food == "ぶどう" ||wrapper.List[i].food == "いちご"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "果物"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
+                    else if(wrapper.List[i].food == "チョコレート" || wrapper.List[i].food == "クッキー"|| wrapper.List[i].food == "ケーキ"){
+                        for(int j = 0; j < 13; j++){
+                            if(category2[j].category == "嗜好品"){
+                                category2[j].price += wrapper.List[i].price;
+                            }
+                        }
+                    }
                 }
             }
             //最終的な結果を表示
@@ -692,9 +948,38 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (category[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = category[j].c;
             }
+             //updown表示
+            if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
+                for(int i =0; i<13; i++){
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
+            }
+            if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
+                Array.Sort(category2, (a, b) => b.price - a.price);
+                //updown表示の計算
+                for(int i =0; i<13; i++){
+                    for(int j =0; j<13; j++){
+                        if(category[i].category == category2[j].category){
+                            if( i < j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i == j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                            else if( i > j ){
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                            }
+                        }
+                    }
+                }
+            }
             angle = 0;//初期値に戻す
             for(int j = 0; j<13; j++){
                 category[j].price = 0;//初期値に戻す
+                category2[j].price = 0;//初期値に戻す
             }
         }
         
