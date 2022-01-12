@@ -990,6 +990,21 @@ public class GraphManager : MonoBehaviour
             }
             //割合の大きい順に並べ替える。
             Array.Sort(category, (a, b) => b.price - a.price);
+            //同率処理のための
+            int end = 1;
+            int jump = 0;
+            category[0].end_rank = 1;
+            for(int i =1; i<13; i++){
+                if(category[i].price == category[i-1].price){
+                    category[i].end_rank = end;
+                    jump++;
+                }
+                else{
+                    end = end  + jump + 1;
+                    category[i].end_rank = end;
+                    jump = 0;
+                }
+            }
             //MeatFishクラスのmeatfishにパネルの色情報を代入し直す
             for(int j =0; j<13; j++){
                 if(category[j].category == "穀類"){
@@ -1047,6 +1062,8 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (category[j].price).ToString() + "円";
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (category[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = category[j].c;
+                //同率処理：値段が一個前の順位のものと同じだった場合
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = category[j].end_rank.ToString() + "位";
             }
              //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
@@ -1056,19 +1073,34 @@ public class GraphManager : MonoBehaviour
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
                 Array.Sort(category2, (a, b) => b.price - a.price);
+                //同率処理のための
+                end = 1;
+                jump = 0;
+                category2[0].end_rank = 1;
+                for(int i =1; i<13; i++){
+                    if(category2[i].price == category2[i-1].price){
+                        category2[i].end_rank = end;
+                        jump++;
+                    }
+                    else{
+                        end = end  + jump + 1;
+                        category2[i].end_rank = end;
+                        jump = 0;
+                    }
+                }
                 //updown表示の計算
                 for(int i =0; i<13; i++){
                     for(int j =0; j<13; j++){
                         if(category[i].category == category2[j].category){
-                            if( i < j ){
+                            if( category[i].end_rank < category2[j].end_rank ){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
-                            else if( i == j ){
+                            else if(category[i].end_rank == category2[j].end_rank){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
-                            else if( i > j ){
+                            else if(category[i].end_rank > category2[j].end_rank){
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
                                 GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
