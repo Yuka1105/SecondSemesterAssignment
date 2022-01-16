@@ -359,6 +359,16 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).GetComponent<Image>().color = color_rank[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = color[j].end_rank.ToString() + "位";
+                //王冠の色を順位によって変える
+                if(color[j].end_rank == 1){//1位の場合
+                    GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 165f / 255f, 0f / 255f, 1);
+                }else if(color[j].end_rank == 2){
+                    GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(119f / 255f, 136f / 255f, 153f / 255f, 1);
+                }else if(color[j].end_rank == 3){
+                    GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(161f / 255f, 109f / 255f, 93f / 255f, 1);
+                }else{
+                    GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
@@ -499,6 +509,16 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = meatfish[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = meatfish[j].end_rank.ToString() + "位";
+                //王冠の色を順位によって変える
+                if(meatfish[j].end_rank == 1){//1位の場合
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 165f / 255f, 0f / 255f, 1);
+                }else if(meatfish[j].end_rank == 2){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(119f / 255f, 136f / 255f, 153f / 255f, 1);
+                }else if(meatfish[j].end_rank == 3){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(161f / 255f, 109f / 255f, 93f / 255f, 1);
+                }else{
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                }
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
@@ -647,6 +667,16 @@ public class GraphManager : MonoBehaviour
                 GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = happy[j].end_rank.ToString() + "位";
                 if(happy[j].happy == "チョコレート"){
                     GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 25;
+                }
+                //王冠の色を順位によって変える
+                if(happy[j].end_rank == 1){//1位の場合
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 165f / 255f, 0f / 255f, 1);
+                }else if(happy[j].end_rank == 2){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(119f / 255f, 136f / 255f, 153f / 255f, 1);
+                }else if(happy[j].end_rank == 3){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(161f / 255f, 109f / 255f, 93f / 255f, 1);
+                }else{
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             //updown表示
@@ -1094,6 +1124,16 @@ public class GraphManager : MonoBehaviour
                     else if(category[j].category == "緑黄色野菜"){
                         GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 30;
                     }
+                }
+                //王冠の色を順位によって変える
+                if(category[j].end_rank == 1){//1位の場合
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 165f / 255f, 0f / 255f, 1);
+                }else if(category[j].end_rank == 2){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(119f / 255f, 136f / 255f, 153f / 255f, 1);
+                }else if(category[j].end_rank == 3){
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(161f / 255f, 109f / 255f, 93f / 255f, 1);
+                }else{
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
              //updown表示
