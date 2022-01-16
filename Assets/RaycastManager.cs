@@ -27,6 +27,7 @@ public class RaycastManager : MonoBehaviour
     bool isGrabbing;
     Transform cube;
     GameObject movedFood;
+    string tag = "";
 
 
     public bool ate = false;//食べ物を食べたかどうか（CharacterAnimater.csで使う）
@@ -130,7 +131,7 @@ public class RaycastManager : MonoBehaviour
             {
                 FoodProvider = GameObject.Find("FoodProvider"); 
                 script = FoodProvider.GetComponent<FoodProvider>();
-                string tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
+                tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
                 movedFood = rayHit.collider.gameObject;
                 if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
                 {   

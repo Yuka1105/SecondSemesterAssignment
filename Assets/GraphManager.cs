@@ -353,17 +353,17 @@ public class GraphManager : MonoBehaviour
             //表
             for(int j = 0; j<11; j++){
                 // Debug.Log(color[j].color + "は合計" + color[j].price + "円。全体の" + color[j].ratio + "%");//結果
-                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (color_rank[j].color);
-                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
-                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (color_rank[j].color);
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (color_rank[j].price).ToString() + "円";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(4).GetComponent<Text>().text = (color_rank[j].ratio).ToString() + "%";
                 GameObject.Find(color_rank[j].rank).transform.GetChild(0).GetComponent<Image>().color = color_rank[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
-                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = color[j].end_rank.ToString() + "位";
+                GameObject.Find(color_rank[j].rank).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = color[j].end_rank.ToString() + "位";
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
                 for(int i =0; i<11; i++){
-                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
@@ -388,16 +388,16 @@ public class GraphManager : MonoBehaviour
                     for(int j =0; j<11; j++){
                         if(color[i].color == color2[j].color){
                             if( color[i].end_rank < color2[j].end_rank ){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(color[i].end_rank == color2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(color[i].end_rank > color2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
@@ -493,17 +493,17 @@ public class GraphManager : MonoBehaviour
             }
             for(int j = 0; j<6; j++){
                 //表
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (meatfish[j].meatfish);
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (meatfish[j].price).ToString() + "円";
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (meatfish[j].meatfish);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (meatfish[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(4).GetComponent<Text>().text = (meatfish[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = meatfish[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = meatfish[j].end_rank.ToString() + "位";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = meatfish[j].end_rank.ToString() + "位";
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
                 for(int i =0; i<6; i++){
-                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
@@ -528,16 +528,16 @@ public class GraphManager : MonoBehaviour
                     for(int j =0; j<6; j++){
                         if(meatfish[i].meatfish == meatfish2[j].meatfish){
                             if( meatfish[i].end_rank < meatfish2[j].end_rank ){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(meatfish[i].end_rank == meatfish2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(meatfish[i].end_rank > meatfish2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
@@ -639,20 +639,20 @@ public class GraphManager : MonoBehaviour
             }
             for(int j = 0; j<8; j++){
                 //表
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (happy[j].happy);
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (happy[j].price).ToString() + "円";
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (happy[j].happy);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (happy[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(4).GetComponent<Text>().text = (happy[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = happy[j].c;
                  //同率処理：値段が一個前の順位のものと同じだった場合
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = happy[j].end_rank.ToString() + "位";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = happy[j].end_rank.ToString() + "位";
                 if(happy[j].happy == "チョコレート"){
-                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                    GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 25;
                 }
             }
             //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
                 for(int i =0; i<8; i++){
-                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
@@ -677,16 +677,16 @@ public class GraphManager : MonoBehaviour
                     for(int j =0; j<8; j++){
                         if(happy[i].happy == happy2[j].happy){
                             if( happy[i].end_rank < happy2[j].end_rank ){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(happy[i].end_rank == happy2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(happy[i].end_rank > happy2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
@@ -1061,45 +1061,45 @@ public class GraphManager : MonoBehaviour
             }
             for(int j = 0; j<13; j++){
                 //表
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = (category[j].category);
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (category[j].price).ToString() + "円";
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (category[j].ratio).ToString() + "%";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().text = (category[j].category);
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(3).GetComponent<Text>().text = (category[j].price).ToString() + "円";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(4).GetComponent<Text>().text = (category[j].ratio).ToString() + "%";
                 GameObject.Find(rank[j]).transform.GetChild(0).GetComponent<Image>().color = category[j].c;
                 //同率処理：値段が一個前の順位のものと同じだった場合
-                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Text>().text = category[j].end_rank.ToString() + "位";
+                GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().text = category[j].end_rank.ToString() + "位";
                 if(j > 2){//1,2,3位
                     if(category[j].category == "牛乳・乳製品"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 25;
                     }
                     else if(category[j].category == "豆・豆食品"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize =30;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize =30;
                     }
                     else if(category[j].category == "緑黄色野菜"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 30;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 30;
                     }
                     else if(category[j].category == "淡色野菜"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 37;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 37;
                     }
                     else if(category[j].category == "キノコ類"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 37;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 37;
                     }
                 }
                 else{//4位〜
                     if(category[j].category == "牛乳・乳製品"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 25;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 25;
                     }
                     else if(category[j].category == "豆・豆食品"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize =30;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize =30;
                     }
                     else if(category[j].category == "緑黄色野菜"){
-                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(1).GetComponent<Text>().fontSize = 30;
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 30;
                     }
                 }
             }
              //updown表示
             if(wrapper.List[0].month == month_value[dropdown.value]){//最初の月を見ている場合
                 for(int i =0; i<13; i++){
-                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
+                    GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 0);
                 }
             }
             if(wrapper.List[0].month != month_value[dropdown.value]){//最初以外の月を見ている場合
@@ -1124,16 +1124,16 @@ public class GraphManager : MonoBehaviour
                     for(int j =0; j<13; j++){
                         if(category[i].category == category2[j].category){
                             if( category[i].end_rank < category2[j].end_rank ){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[0];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[0];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(category[i].end_rank == category2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[1];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[1];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                             else if(category[i].end_rank > category2[j].end_rank){
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().sprite = m_Sprite[2];
-                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(4).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().sprite = m_Sprite[2];
+                                GameObject.Find(rank[i]).transform.GetChild(0).transform.GetChild(5).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f, 1);
                             }
                         }
                     }
