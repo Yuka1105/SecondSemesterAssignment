@@ -1821,6 +1821,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f76b707a59f424ebb616a7c7546a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particle: {fileID: 7692366884062897610, guid: 40d35e87183cb4353ac12fb10d6c354a,
+    type: 3}
+  particle2: {fileID: 3166506526303360905, guid: 6666cf94488114ef19f9f8be2cadbe2a,
+    type: 3}
   button: {fileID: 2069663103918047314}
   content: {fileID: 1110963480}
   text_times: {fileID: 1173371643}
@@ -1837,7 +1841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546870539}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -15, z: 53.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

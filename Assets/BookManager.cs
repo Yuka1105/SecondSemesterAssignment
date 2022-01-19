@@ -14,6 +14,18 @@ public class Item{//食材名、入力回数、最後に買った日付を格納
 
 public class BookManager : MonoBehaviour
 {
+    //パーティクル発生のための
+    [SerializeField]
+	[Tooltip("発生させるエフェクト(パーティクル)")]
+	private ParticleSystem particle;
+    //パーティクル発生のための
+    [SerializeField]
+	[Tooltip("発生させるエフェクト(パーティクル)")]
+    private ParticleSystem particle2;
+    int push = 0;
+    ParticleSystem newParticle;
+    ParticleSystem newParticle2;
+
     bool book_open;//図鑑のシーンに来た時1回だけListの中のデータを見る。
     GameObject RaycastManager;
     RaycastManager script;
@@ -132,8 +144,47 @@ public class BookManager : MonoBehaviour
                 text_times.GetComponent<Text>().text = item[i].times + "回";
                 text_lastday.GetComponent<Text>().text = item[i].month + "月" + item[i].day + "日";
                 foodnametext.GetComponent<Text>().text = item[i].food;
-                GameObject obj = (GameObject)Resources.Load(item[i].food);
+                
+                //入力回数が多いものだったらパーティクルを発生させる
+                if(item[i].times > 19 && item[i].times < 30){
+                    if(newParticle != null){
+                        Destroy(newParticle.gameObject);
+                    }
+                    if(newParticle2 != null){
+                        Destroy(newParticle2.gameObject);
+                    }
+                    // パーティクルシステムのインスタンスを生成する。
+			        newParticle = Instantiate(particle);
+			        // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする。
+			        newParticle.transform.position = this.transform.position;
+                    // パーティクルを発生させる。
+                    newParticle.Play();
+                }
+                else if(item[i].times > 29){
+                    if(newParticle != null){
+                        Destroy(newParticle.gameObject);
+                    }
+                    if(newParticle2 != null){
+                        Destroy(newParticle2.gameObject);
+                    }
+                    //上記とほぼ同様のことをやる
+			        newParticle = Instantiate(particle);
+			        newParticle.transform.position = this.transform.position;
+                    newParticle.Play();
+			        newParticle2 = Instantiate(particle2);
+			        newParticle2.transform.position = this.transform.position;
+                    newParticle2.Play();   
+                }
+                else{//それ以外のボタンを押した時、もし既にパーティクルが存在していればパーティクルを消す
+                    if(newParticle){
+                        Destroy(newParticle.gameObject);
+                    }
+                    if(newParticle2){
+                        Destroy(newParticle2.gameObject);
+                    }
+                }
                 //画面上にリストにある食べ物を出現させる。
+                GameObject obj = (GameObject)Resources.Load(item[i].food);
                 GameObject model = GameObject.Find("model");
                 if(model){
                     Destroy(model);
