@@ -34,7 +34,7 @@ public class FoodProvider : MonoBehaviour
             GameObject obj = (GameObject)Resources.Load(script.food_name_end[i]);
             //画面上にリストにある食べ物を出現させる
             food_num ++; //画面上にいくつ食べ物があるか数える
-            food[i].insta_obj = Instantiate(obj, new Vector3(-2.0f + i * 1.2f, -10.0f, 13.0f), Quaternion.identity);
+            food[i].insta_obj = Instantiate(obj, new Vector3(-3.0f + i * 1.5f, -10.0f, 13.0f), Quaternion.identity);
             food[i].food_price = script.food_price_end[i];
         }
         script.load_scene = false;

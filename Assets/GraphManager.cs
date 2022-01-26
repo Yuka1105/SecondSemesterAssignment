@@ -668,6 +668,15 @@ public class GraphManager : MonoBehaviour
                 if(happy[j].happy == "チョコレート"){
                     GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 25;
                 }
+                else{
+                    if(j<3){//1~3位
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 44;
+                    }
+                    else{//4位以下
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 34;
+                    }
+
+                }
                 //王冠の色を順位によって変える
                 if(happy[j].end_rank == 1){//1位の場合
                     GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color = new UnityEngine.Color(255f / 255f, 165f / 255f, 0f / 255f, 1);
@@ -1113,6 +1122,9 @@ public class GraphManager : MonoBehaviour
                     else if(category[j].category == "キノコ類"){
                         GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 37;
                     }
+                    else{
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 44;
+                    }
                 }
                 else{//4位〜
                     if(category[j].category == "牛乳・乳製品"){
@@ -1123,6 +1135,9 @@ public class GraphManager : MonoBehaviour
                     }
                     else if(category[j].category == "緑黄色野菜"){
                         GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 30;
+                    }
+                    else{
+                        GameObject.Find(rank[j]).transform.GetChild(0).transform.GetChild(2).GetComponent<Text>().fontSize = 40;
                     }
                 }
                 //王冠の色を順位によって変える
