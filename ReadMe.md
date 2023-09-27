@@ -2,7 +2,7 @@
 ## 詳しくはこちらのリンクへ
 デモ動画：https://youtu.be/NtWhAn5mrnk
 
-ポートフォリオ：https://drive.google.com/file/d/1VVpZ2tZ0PsZN9uakEsjICSmzWkwSvHdM/view
+ポートフォリオ：準備中
 
 ## コンセプト・想定ユーザ
 「最近、私、肉より魚を多く食べている気がする。でもほんとにそうなのかな?」
