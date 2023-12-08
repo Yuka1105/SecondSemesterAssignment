@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;//リストを使うとき
+using System.Collections.Generic; // リスト
 using UnityEngine;
-using System; //DateTimeを使用する為追加。
-using System.IO;//セーブとロード
+using System; // DateTime
+using System.IO; // セーブとロード
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -12,40 +12,39 @@ public class Wrapper
 }
 
 [System.Serializable]
-public class SaveData //セーブデータ用のクラス
+public class SaveData // セーブデータ用のクラス
 {
-    public int month;//買った月
-    public int day;//買った日
-    public string food;//買った食べ物
-    public string color;//買った食べ物の色
-    public int price;//値段
+    public int month; // 買った月
+    public int day; // 買った日
+    public string food; // 買った食べ物
+    public string color; // 買った食べ物の色
+    public int price; // 値段
 }
 public class RaycastManager : MonoBehaviour
 {
-    //食べ物を掴んで放す
+    // 食べ物を掴んで放す
     Plane plane;   
     bool isGrabbing;
     Transform cube;
     GameObject movedFood;
     string tag = "";
 
-
-    public bool ate = false;//食べ物を食べたかどうか（CharacterAnimater.csで使う）
+    public bool ate = false; // 食べ物を食べたかどうか（CharacterAnimater.csで使用）
     private static RaycastManager instance = null;
 
-    // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録する
+    // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録
     public static RaycastManager Instance => instance
         ?? ( instance = GameObject.FindWithTag ( "RaycastManager" ).GetComponent<RaycastManager> () );
     void Awake()
     {
-        // もしインスタンスが複数存在するなら、自らを破棄する
+        // インスタンスが複数存在するなら自らを破棄
         if ( this != Instance )
         {
             Destroy ( this.gameObject );
             return;
         }
 
-        // 唯一のインスタンスなら、シーン遷移しても残す
+        // 唯一のインスタンスならシーン遷移しても残す
         DontDestroyOnLoad ( this.gameObject );
     }
     private void OnDestroy ()
@@ -55,12 +54,11 @@ public class RaycastManager : MonoBehaviour
     }
     GameObject FoodProvider;
     FoodProvider script;
-    //DateTimeを使うため変数を設定
     DateTime TodayNow;
-    // Start is called before the first frame update
+    
     void Start()
     {
-        //食べ物を掴んで放す
+        // 食べ物を掴んで放す
         plane = new Plane(new Vector3(-3f,-4f,13f), new Vector3(0f,0f,13f),new Vector3(1f,2f,13f));
 
         Wrapper wrapper = new Wrapper();
@@ -76,7 +74,7 @@ public class RaycastManager : MonoBehaviour
     {
         StreamWriter writer;
         string jsonstr = JsonUtility.ToJson(wrapper);
-        writer = new StreamWriter(Application.dataPath + "/savedata.json",false);//trueだと追加で、falseだと上書き
+        writer = new StreamWriter(Application.dataPath + "/savedata.json",false); // trueだと追加でfalseだと上書き
         writer.Write(jsonstr);
         writer.Flush();
         writer.Close();
@@ -85,11 +83,12 @@ public class RaycastManager : MonoBehaviour
 
     public Wrapper Load(){
         if(File.Exists(Application.dataPath + "/savedata.json")){
-            string datastr = "";//json形式のデータを格納するためのstring変数
+            string datastr = ""; // json形式のデータを格納
             StreamReader reader;
             reader = new StreamReader(Application.dataPath + "/savedata.json");
             datastr = reader.ReadToEnd();
-            if(datastr == ""){//ファイルにデータが何もなかった場合
+            // ファイルにデータが何もなかった場合
+            if(datastr == ""){
                 reader.Close();
                 Wrapper w = new Wrapper();
                 w.List = new List<SaveData>();
@@ -103,7 +102,8 @@ public class RaycastManager : MonoBehaviour
                 return w; 
             }else{
                 reader.Close();
-                return JsonUtility.FromJson<Wrapper>(datastr);//json形式のデータ(datastr)をWrapperに変えてリターンしている。
+                // json形式のデータ(datastr)をWrapperに変えて返す
+                return JsonUtility.FromJson<Wrapper>(datastr);
             }
         }
         Wrapper wrapper = new Wrapper();
@@ -118,7 +118,6 @@ public class RaycastManager : MonoBehaviour
         return wrapper;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -131,17 +130,18 @@ public class RaycastManager : MonoBehaviour
             {
                 FoodProvider = GameObject.Find("FoodProvider"); 
                 script = FoodProvider.GetComponent<FoodProvider>();
-                tag = rayHit.collider.gameObject.tag;//ヒットしたオブジェクトのタグ名を取得
+                tag = rayHit.collider.gameObject.tag; // ヒットしたオブジェクトのタグ名を取得
                 movedFood = rayHit.collider.gameObject;
                 if (tag == "red" || tag == "orange" || tag == "yellow" || tag == "green" || tag == "blue"|| tag == "purple" || tag == "pink" || tag == "brown" || tag == "black" || tag == "gray" || tag == "white")//食べ物にヒットした場合のみ
                 {   
                     if(ate == false){
-                        //食べ物を掴んで放す
+                        // 食べ物を掴んで放す
                         isGrabbing = true;
                         cube = rayHit.transform;
                     }
                 }
-                if(script.food_num == 0 && ate == false){//食べ物が画面上にない場合、食べている最中ではないのみ、図鑑とカレンダーを押せる
+                // 食べ物が画面上にない場合、食べている最中ではないときのみ図鑑とカレンダーを押すことができる
+                if(script.food_num == 0 && ate == false){
                     if(tag == "book"){
                         SceneManager.LoadScene("Book");
                     }
@@ -151,7 +151,7 @@ public class RaycastManager : MonoBehaviour
                 }
             }
         }
-        //食べ物を掴んで放す
+        // 食べ物を掴んで放す
         if (isGrabbing)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -159,24 +159,24 @@ public class RaycastManager : MonoBehaviour
             plane.Raycast(ray, out rayDistance);
             cube.position = ray.GetPoint(rayDistance);
 
-            //食べ物を放したとき
+            // 食べ物を放したとき
             if (Input.GetMouseButtonUp(0))
             {
-                //画面外なら中央に食べ物を戻す
+                // 画面外なら中央に食べ物を戻す
                 if(movedFood.transform.position.x < -4 || movedFood.transform.position.x > 4 || movedFood.transform.position.y > -1.5  || movedFood.transform.position.y < -12.5){
                     cube.position =  new Vector3(-0f, -10f, 13f);
                 }
-                //口のあたりに食べ物を話した場合、画面上から食べ物を消してセーブする。
+                // 口のあたりに食べ物を話した場合、画面上から食べ物を消してセーブ
                 if(movedFood.transform.position.x < 1.5 && movedFood.transform.position.x > -1.5 && movedFood.transform.position.y > -9  && movedFood.transform.position.y < -7){
                     ate = true;
-                    TodayNow = DateTime.Now; //時間を取得
-                    //セーブ
+                    TodayNow = DateTime.Now;
+                    // セーブ
                     SaveData saveData = new SaveData();
                     saveData.month = TodayNow.Month;
                     saveData.day = TodayNow.Day;
                     saveData.food = movedFood.name;
-                    int length = saveData.food.Length;//(Clone)という文字を含めた、食べ物の名前の長さを読み取る
-                    saveData.food = saveData.food.Remove(length-7);//lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
+                    int length = saveData.food.Length; // (Clone)という文字を含めた食べ物の名前の長さを読み取る
+                    saveData.food = saveData.food.Remove(length-7); // lenght-7が食べ物の名前の長さ。末尾の(Clone)の文字を消して再代入
                     saveData.color = tag;
                     for(int i = 0; i < script.script.ObjCount; i++){
                         if(movedFood == script.food[i].insta_obj){
@@ -189,7 +189,7 @@ public class RaycastManager : MonoBehaviour
                     wrapper.List.Add(saveData);
                     Save(wrapper);
                     script.food_num --;
-                    Destroy(movedFood);//食べ物を消す
+                    Destroy(movedFood); // 食べ物を消す
                 }
                 isGrabbing = false;
             }

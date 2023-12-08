@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System; //DateTimeを使用する為追加。
+using System; // DateTime
 
+// 上位２色のためのクラス
 [System.Serializable]
-public class TwoColor{//上位２色のためのクラス
+public class TwoColor{
     public string color;
     public float ratio;
     public UnityEngine.Color c;
 }
+
 public class CharacterManager : MonoBehaviour
 {
     int month = 0;
@@ -17,14 +19,14 @@ public class CharacterManager : MonoBehaviour
     RaycastManager script;
     Color[] color = new Color[11];
     TwoColor[] twocolor = new TwoColor[2];
-    // Start is called before the first frame update
+    
     void Start()
     {
      RaycastManager = GameObject.Find("RaycastManager"); 
      script = RaycastManager.GetComponent<RaycastManager>(); 
 
      TodayNow = DateTime.Now;
-     month = TodayNow.Month;//今月の月の値を格納する。
+     month = TodayNow.Month; // 今月の月の値
 
      for(int i = 0; i < 11; i++){
          color[i] = new Color();
@@ -46,8 +48,6 @@ public class CharacterManager : MonoBehaviour
      }
     }
     
-
-    // Update is called once per frame
     void Update()
     {
         Wrapper wrapper = new Wrapper();
@@ -55,36 +55,41 @@ public class CharacterManager : MonoBehaviour
         wrapper = script.Load();
         int sum = 0;
         for(int i = 0; i<wrapper.List.Count; i++){
-                if(wrapper.List[i].month == month){//今月のデータのみ参照
+                // 今月のデータのみ参照
+                if(wrapper.List[i].month == month){
                     for(int j = 0; j<11; j++){
-                        if(wrapper.List[i].color == color[j].color){//例えばデータ内の食べ物が赤色だった場合colorクラスの赤のインスタンスの値段を増やす。
+                        // 例：データ内の食べ物が赤色だった場合colorクラスの赤のインスタンスの値段を増やす
+                        if(wrapper.List[i].color == color[j].color){
                             color[j].price += wrapper.List[i].price;
-                            sum += wrapper.List[i].price;//値段の合計を増やす。
+                            sum += wrapper.List[i].price; // 値段の合計を増やす。
                         }
                     }
                 }
         }
-        int color_num = 0;//今月の色の数を数えるための変数
+        int color_num = 0; // 今月の色の数を数えるための変数
         for(int j = 0; j<11; j++){
             if(color[j].price >= 1){
                 color_num++;
             }
         }
         Debug.Log("今月の色の数は" + color_num + "色です。");
-        if(color_num == 0){//今月0色の場合
-            //キャラクターの色を変更
+        // 今月0色の場合
+        if(color_num == 0){
+            // キャラクターの色を変更
             Renderer renderer = GetComponent<Renderer>();
             Material[] mats = renderer.materials;
             UnityEngine.Color c = new UnityEngine.Color(255f / 255f, 247f / 255f, 153f / 255f);
             mats[2].color = c;
             renderer.materials = mats;
         }
-        else if(color_num == 1){//今月1色の場合
-            //キャラクターの色を変更
+        // 今月1色の場合
+        else if(color_num == 1){
+            // キャラクターの色を変更
             Renderer renderer = GetComponent<Renderer>();
             Material[] mats = renderer.materials;
             for(int i = 0; i<wrapper.List.Count; i++){
-                if(wrapper.List[i].month == month){//今月のデータのみ参照
+                // 今月のデータのみ参照
+                if(wrapper.List[i].month == month){
                     if(wrapper.List[i].color == "red"){
                         UnityEngine.Color c = new UnityEngine.Color(232f / 255f, 57f / 255f, 41f / 255f);;
                         mats[2].color = c;
@@ -143,32 +148,35 @@ public class CharacterManager : MonoBehaviour
                 }
             }
         }
-        else{//今月2色以上ある場合
-            //各色の割合を算出する。
+        // 今月2色以上ある場合
+        else{
+            // 各色の割合を算出する
             for(int j = 0; j<11; j++){
                 color[j].ratio = (float)Math.Round(((float)color[j].price / (float)sum) * 100, 1, MidpointRounding.AwayFromZero);//それぞれの色の値段における割合。小数第二位で四捨五入
             }
-            //rankという名前の配列に割合の値を移す。
+            // rank配列に割合の値を移す
             float[] rank = new float[11];
             for(int j = 0; j<11; j++){
                 rank[j] = color[j].ratio;
             }
-            //割合の大きい順に並べ替える。
+            // 割合の大きい順に並べ替える
             Array.Sort(rank);
             Array.Reverse(rank);
             for(int j = 0; j<11; j++){
                 Debug.Log(rank[j]);
             }
-            for(int i = 0; i<2; i++){//上位２色がどの色なのかを求める。
+            // 上位２色がどの色なのかを求める
+            for(int i = 0; i<2; i++){
                 for(int j =0; j<11; j++){
                     if(rank[i] == color[j].ratio){
-                        //TwoColorクラスに上位2色の情報を格納
+                        // TwoColorクラスに上位2色の情報を格納
                         twocolor[i].color = color[j].color;
                         twocolor[i].ratio = color[j].ratio;
                     }
                 }
             }
-            for(int i = 0; i<2; i++){//RGBの色の情報をTwoColorオブジェクトに入れる。
+            // RGBの色の情報をTwoColorオブジェクトに格納
+            for(int i = 0; i<2; i++){
                 if(twocolor[i].color == "red"){
                     twocolor[i].c = new UnityEngine.Color(232f / 255f, 57f / 255f, 41f / 255f);
                 }
@@ -203,16 +211,17 @@ public class CharacterManager : MonoBehaviour
                     twocolor[i].c = new UnityEngine.Color(255f / 255f, 255f / 255f, 255f / 255f);
                 }
             }
-            //キャラクターの色を変更
+            // キャラクターの色を変更
             Renderer renderer = GetComponent<Renderer>();
             Material[] mats = renderer.materials;
-            //2色について、それぞれの割合から色の配分を決めて、色を足し合わせる。
+            // 2色について、それぞれの割合から色の配分を決めて、色を足し合わせる
             UnityEngine.Color c = twocolor[0].c * (twocolor[0].ratio/(twocolor[0].ratio + twocolor[1].ratio)) + twocolor[1].c * (twocolor[1].ratio/(twocolor[0].ratio + twocolor[1].ratio));
             mats[2].color = c;
             renderer.materials = mats;
         }
         for(int j = 0; j<11; j++){
-            color[j].price = 0;//初期値に戻す
+            // 初期値に戻す
+            color[j].price = 0;
         }
     }
 }

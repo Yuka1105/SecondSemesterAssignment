@@ -14,7 +14,7 @@ public class ButtonManager : MonoBehaviour
 
     public GameObject panel_category;
 
-    //カテゴリパネルボタン
+    // カテゴリパネルボタン
     public GameObject panel_koku;
     public GameObject panel_niku;
     public GameObject panel_gyokai;
@@ -36,7 +36,7 @@ public class ButtonManager : MonoBehaviour
 
     public GameObject panel_food_price;
 
-    //最終的にリストに追加されている食材の名前を入れる配列
+    // 最終的にリストに追加されている食べ物の名前を入れる配列
     public string[] food_name_end = new string[50];
     public int[] food_price_end = new int[50];
 
@@ -48,12 +48,12 @@ public class ButtonManager : MonoBehaviour
     // GameControllerインスタンスの実体
     private static ButtonManager instance = null;
 
-    // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録する
+    // GameControllerインスタンスのプロパティーは、実体が存在しないとき（＝初回参照時）実体を探して登録
     public static ButtonManager Instance => instance
         ?? ( instance = GameObject.FindWithTag ( "ButtonManager" ).GetComponent<ButtonManager> () );
     void Awake()
     {
-        // もしインスタンスが複数存在するなら、自らを破棄する
+        // インスタンスが複数存在するなら自らを破棄
         if ( this != Instance )
         {
             Destroy ( this.gameObject );
@@ -77,7 +77,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void Button(string button){
         switch(button){
-            //カテゴリー14個分のボタン
+            // カテゴリー14個分のボタン
             case "koku":
                 panel_category.SetActive(false);
                 panel_koku.SetActive(true);
@@ -144,7 +144,7 @@ public class ButtonManager : MonoBehaviour
                 panel = panel_shiko;
                 break;
             
-            //カテゴリーそれぞれに対しての食材ボタン
+            // カテゴリーそれぞれに対しての食材ボタン
             case "koku_kome":
                 food_name = "米";
                 panel_price.SetActive(true);
@@ -301,10 +301,11 @@ public class ButtonManager : MonoBehaviour
                 food_name = "ケーキ";
                 panel_price.SetActive(true);
                 break;
-            //値段入力OKボタン
+            // 値段入力OKボタン
             case "ok":
-                if(int.Parse(script.inputField.text) >= 1 && int.Parse(script.inputField.text) <= 50000){//値段が1円以上なら実行する
-                    //小さいパネルを上部のリストに追加
+                // 値段が1円以上なら実行
+                if(int.Parse(script.inputField.text) >= 1 && int.Parse(script.inputField.text) <= 50000){
+                    // 小さいパネルを上部のリストに追加
                     GameObject cloneObject =Instantiate(panel_food_price, new Vector3( -1.0f, 0.0f, 0.0f), Quaternion.identity);
                     cloneObject.transform.parent = content.transform;
                     cloneObject.name = food_name;
@@ -312,7 +313,7 @@ public class ButtonManager : MonoBehaviour
                     food_text.text = food_name;
                     Text price_text = cloneObject.transform.GetChild(1).GetComponent<Text>();
                     price_text.text = script.inputField.text + "円";
-                    //値段の入力フォームの値を削除
+                    // 値段の入力フォームの値を削除
                     script.inputField.text="";
                     panel_price.SetActive(false);
                 }
@@ -327,14 +328,14 @@ public class ButtonManager : MonoBehaviour
                 break;
             
             case "confirm":
-                //追加されている食材の数を数える
+                // 追加されている食材の数を数える
                 Debug.Log("決定1");
                 ObjCount = content.transform.childCount;
                 for(int i = 0; i < ObjCount; i++){
-                    int length = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Length;//110円だったら4文字だから4が格納される。
-                    string price = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Remove(length-1);//110という数字だけになる。
-                    food_name_end[i] = content.transform.GetChild(i).gameObject.name;//配列に食材名を保存
-                    food_price_end[i] = int.Parse(price);//string型の値段をint型に変換
+                    int length = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Length; // 例：110円だったら4文字だから4が格納される
+                    string price = content.transform.GetChild(i).transform.GetChild(1).GetComponent<Text>().text.Remove(length-1); // 例：110という数字だけになる
+                    food_name_end[i] = content.transform.GetChild(i).gameObject.name; // 配列に食べ物の名前を保存
+                    food_price_end[i] = int.Parse(price); // string型の値段をint型に変換
                 }
                 Debug.Log("決定2");
                 SceneManager.LoadScene("Home");
@@ -342,7 +343,8 @@ public class ButtonManager : MonoBehaviour
                 panel_category.SetActive(true);
                 canvas.SetActive(false);
                 load_scene = true;
-                foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
+                // リストのオブジェクト（食べ物の名前と値段）を全消し
+                foreach(Transform child in content.transform){
                     Destroy(child.gameObject);
                 }
                 break;
@@ -353,12 +355,14 @@ public class ButtonManager : MonoBehaviour
                 panel_category.SetActive(true);
                 canvas.SetActive(false);
                 SceneManager.LoadScene("Home");
-                foreach(Transform child in content.transform){//リストのオブジェクト（食材名と値段の）を全消し
+                // リストのオブジェクト（食べ物の名前と値段）を全消し
+                foreach(Transform child in content.transform){
                     Destroy(child.gameObject);
                 }
                 break;
-
-            case "back"://各カテゴリパネルからカテゴリパネルへ戻るボタン
+            
+            // 各カテゴリパネルからカテゴリパネルへ戻るボタン
+            case "back":
                 panel.SetActive(false);
                 panel_category.SetActive(true);
                 break;

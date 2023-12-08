@@ -4,19 +4,7 @@ using UnityEngine;
 
 public class DeleteButtonManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //食材名と値段が書かれた小さいパネルを消すボタン関数
+    // 食べ物の名前と値段が書かれた小さいパネルを消すボタン関数
     public void DeleteButtonOnClick(){
         Destroy(this.gameObject);
     }

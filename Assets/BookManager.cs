@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// 食べ物の名前、入力回数、最後に買った日付を格納するクラス
 [System.Serializable]
-public class Item{//食材名、入力回数、最後に買った日付を格納するクラス
+public class Item{
     public string food;
     public int times;
     public int month;
@@ -14,11 +15,9 @@ public class Item{//食材名、入力回数、最後に買った日付を格納
 
 public class BookManager : MonoBehaviour
 {
-    //パーティクル発生のための
     [SerializeField]
 	[Tooltip("発生させるエフェクト(パーティクル)")]
 	private ParticleSystem particle;
-    //パーティクル発生のための
     [SerializeField]
 	[Tooltip("発生させるエフェクト(パーティクル)")]
     private ParticleSystem particle2;
@@ -26,17 +25,17 @@ public class BookManager : MonoBehaviour
     ParticleSystem newParticle;
     ParticleSystem newParticle2;
 
-    bool book_open;//図鑑のシーンに来た時1回だけListの中のデータを見る。
+    bool book_open; // 図鑑のシーンに移った時1回だけListの中のデータを参照
     GameObject RaycastManager;
     RaycastManager script;
     Item[] item = new Item[39];
-    public GameObject button;//アイテムのボタン
-    public GameObject content;//ボタンの親となるコンテント(UI)
+    public GameObject button; // アイテムのボタン
+    public GameObject content; // ボタンの親となるコンテント(UI)
     public Text text_times;
     public Text text_lastday;
     public Text foodnametext;
     public Sprite[] m_Sprite;
-    // Start is called before the first frame update
+
     void Start()
     {
      book_open = true;   
@@ -87,7 +86,6 @@ public class BookManager : MonoBehaviour
      script = RaycastManager.GetComponent<RaycastManager>(); 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(book_open == true){
@@ -97,16 +95,17 @@ public class BookManager : MonoBehaviour
             for(int i=0; i< wrapper.List.Count; i++ ){
                 for(int j=0; j<39; j++){
                     if(wrapper.List[i].food == item[j].food){
-                        item[j].times ++;//セーブしたリストの食材名がitem[]の食材名と一致したら入力回数を表すtimes変数を1増やす。
-                        item[j].month = wrapper.List[i].month; //データの月も格納(最後に入力した月に最終的に上書きされる。)
-                        item[j].day = wrapper.List[i].day; //データの月も格納(最後に入力した日に最終的に上書きされる。)
+                        item[j].times ++; // セーブしたリストの食材名がitem[]の食材名と一致したら入力回数を表すtimes変数を1増やす
+                        item[j].month = wrapper.List[i].month; // データの月も格納(最後に入力した月に上書き)
+                        item[j].day = wrapper.List[i].day; // データの日も格納(最後に入力した日に上書き)
                     }
                 }
             }
             for(int i=0; i<39; i++){
-                if(item[i].times > 0){//もし一回でも入力されていれば
+                // 1回でも入力されていれば
+                if(item[i].times > 0){
                     Debug.Log(item[i].food + "を" + item[i].times + "回入力。最後に買った日は" + item[i].month + "月" + item[i].day + "日");
-                    //ボタンを作る。
+                    // ボタンを作成
                     GameObject cloneObject = Instantiate(button, new Vector3(-2.0f + i * 1.0f, 0.0f, 0.0f), Quaternion.identity);
                     cloneObject.transform.parent = content.transform;
                     cloneObject.name = item[i].food;
@@ -120,8 +119,9 @@ public class BookManager : MonoBehaviour
                     }
                 }
             }
-            if(wrapper.List.Count > 0){//リストに１つでもデータがある、つまり図鑑にボタンが一つでもある場合
-                //最初のボタンをあらかじめ押した状態にしておく。
+            // リストに１つでもデータがある（図鑑にボタンが1つでもある）場合
+            if(wrapper.List.Count > 0){
+                // 最初のボタンをあらかじめ押した状態にしておく
                 Debug.Log(content.transform.GetChild(0));
                 content.transform.GetChild(0).GetComponent<Button>().onClick.Invoke();
             }
@@ -132,12 +132,12 @@ public class BookManager : MonoBehaviour
         if(model){
             Transform modelTransform = model.transform;
             Vector3 localAngle = modelTransform.localEulerAngles;
-            localAngle.y += 0.50f; // ローカル座標を基準に、y軸を軸にし１度分回転
+            localAngle.y += 0.50f; // ローカル座標を基準にy軸を基準に１度分回転
             modelTransform.localEulerAngles = localAngle; // 回転角度を設定
         }
     }
 
-    //アイテムボタンクリックイベント内容
+    // アイテムボタンクリックイベント内容
     public void ItemOnClick(GameObject button) {
          for(int i=0; i<39; i++){
              if(button.name == item[i].food){
@@ -145,7 +145,7 @@ public class BookManager : MonoBehaviour
                 text_lastday.GetComponent<Text>().text = item[i].month + "月" + item[i].day + "日";
                 foodnametext.GetComponent<Text>().text = item[i].food;
                 
-                //入力回数が多いものだったらパーティクルを発生させる
+                // 入力回数が多いものならばパーティクルを発生させる
                 if(item[i].times > 19 && item[i].times < 30){
                     if(newParticle != null){
                         Destroy(newParticle.gameObject);
@@ -153,11 +153,11 @@ public class BookManager : MonoBehaviour
                     if(newParticle2 != null){
                         Destroy(newParticle2.gameObject);
                     }
-                    // パーティクルシステムのインスタンスを生成する。
+                    // パーティクルシステムのインスタンスを生成
 			        newParticle = Instantiate(particle);
-			        // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所にする。
+			        // パーティクルの発生場所をこのスクリプトをアタッチしているGameObjectの場所に
 			        newParticle.transform.position = this.transform.position;
-                    // パーティクルを発生させる。
+                    // パーティクルを発生
                     newParticle.Play();
                 }
                 else if(item[i].times > 29){
@@ -167,7 +167,7 @@ public class BookManager : MonoBehaviour
                     if(newParticle2 != null){
                         Destroy(newParticle2.gameObject);
                     }
-                    //上記とほぼ同様のことをやる
+                    //上記と同様
 			        newParticle = Instantiate(particle);
 			        newParticle.transform.position = this.transform.position;
                     newParticle.Play();
@@ -175,7 +175,8 @@ public class BookManager : MonoBehaviour
 			        newParticle2.transform.position = this.transform.position;
                     newParticle2.Play();   
                 }
-                else{//それ以外のボタンを押した時、もし既にパーティクルが存在していればパーティクルを消す
+                // それ以外のボタンを押した時、既にパーティクルが存在していればパーティクルを消す
+                else{
                     if(newParticle){
                         Destroy(newParticle.gameObject);
                     }
@@ -183,7 +184,7 @@ public class BookManager : MonoBehaviour
                         Destroy(newParticle2.gameObject);
                     }
                 }
-                //画面上にリストにある食べ物を出現させる。
+                // リストにある食べ物を出現
                 GameObject obj = (GameObject)Resources.Load(item[i].food);
                 GameObject model = GameObject.Find("model");
                 if(model){
